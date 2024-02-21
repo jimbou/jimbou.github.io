@@ -33,12 +33,16 @@
                     margin: 0 0 10px 0; /* Stack buttons vertically with spacing */
                 }
                 footer {
-                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
                 }
 
                 footer div {
-                    border-bottom: 1px solid #cccccc2b; /* Adds a line below each div */
-                    padding: 10px 0; /* Adds some spacing */
+                    width: 100%; /* Ensure full width for line separation */
+                    border-bottom: 1px solid black; /* Black lines for separation */
+                    padding: 15px 0; /* Adjust padding as needed */
+                    text-align: center; /* Center text */
                 }
 
                 footer div:last-child {
