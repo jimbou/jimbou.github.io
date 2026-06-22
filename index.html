@@ -1,126 +1,387 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dimitris Bouras</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-        <link rel="manifest" href="images/site.webmanifest">
-        <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimitris Bouras</title>
+    <meta name="description" content="Dimitrios Stamatios Bouras — PhD researcher in Computer Science at Peking University (PL Lab). Research on LLM-based program analysis, coding agents, symbolic execution and software verification.">
 
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="theme-color" content="#ffffff">
 
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <style>
-            @media (max-width: 768px) {
-                /* Flex container adjustments for mobile */
-                .flex-grow.container.mx-auto.px-4.flex.justify-center.items-center.gap-x-20.py-8 {
-                    flex-direction: column;
-                    zoom: 100%;
-                }
-    
-                /* Image adjustments for mobile */
-                img.rounded-full.object-cover {
-                    width: 300px; /* Adjust the size as needed */
-                    height: 300px; /* Adjust the size as needed */
-                }
-    
-                /* Button adjustments for mobile */
-                button.bg-gray-400.text-white.font-bold.py-8.px-16.rounded-full.mr-2.text-lg,
-                button.bg-blue-200.text-white.font-bold.py-8.px-16.rounded-full.mr-2.text-lg,
-                button[style*="background-color: #A1BDC7;"] {
-                    /*adjust padding*/
-                    padding: py-4 px-8; 
-                    /* Adjust padding */
-                    margin: 0 0 10px 0; /* Stack buttons vertically with spacing */
-                }
-                footer {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-
-                footer div {
-                    width: 100%; /* Ensure full width for line separation */
-                    border-bottom: 1px solid rgb(93, 91, 91); /* Black lines for separation */
-                    padding: 15px 0; /* Adjust padding as needed */
-                    text-align: center; /* Center text */
-                }
-
-                footer div:last-child {
-                    border-bottom: none; /* Removes the line from the last div */
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#cddde2',
+                            DEFAULT: '#A1BDC7',
+                            dark: '#6f95a1',
+                            darker: '#4f717c'
+                        }
+                    }
                 }
             }
-        </style>
-    </head>
-<body class="bg-gray-50 flex flex-col min-h-screen" >
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .section-anchor { scroll-margin-top: 5rem; }
+        /* Show text matching the active language (set on <html lang>) */
+        [data-lang] { display: none; }
+        html[lang="en"] [data-lang="en"],
+        html[lang="zh"] [data-lang="zh"] { display: inline; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen antialiased">
 
-    <!-- Main Content -->
-    <div class="flex-grow container mx-auto px-4 flex justify-center items-center gap-x-20 py-8" style="zoom: 70%;">
-         <!-- Left Side - Profile Image -->
-        
-        
-         <div class="flex justify-center">
-            <!-- Increased image size -->
-            <img class="rounded-full object-cover" style="width: 450px; height: 450px;" src="images/profile.png" alt="Dimitrios Stamatios Bouras">
-        </div>
-
-        <!-- Right Side - Bio and Buttons -->
-        <div class="text-center">
-            <h1 class="text-6xl font-bold mb-4">Dimitris Bouras</h1> <!-- Decreased text size -->
-            <div class="mb-8">
-                <p class="text-md mb-4">Software Engineer with an MEng from the National Technical University of Athens and a MSc from UCL</p> <!-- Decreased text size -->
-                <p class="text-md mb-4">Currently Research Assistant at Programming Languages Lab, Peking University</p> 
-                <p class="text-md">I have a strong background in software systems and I am passionate about DevOps, <br>Cloud Computing, Software Verification , Genetic Software Optimisation <br> and LLM-assisted Code Reasoning in NL</p> <!-- Decreased text size -->
+    <!-- ===================== NAV ===================== -->
+    <header class="sticky top-0 z-30 bg-gray-50/90 backdrop-blur border-b border-gray-200">
+        <nav class="container mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#top" class="font-bold text-lg tracking-tight text-gray-900">Dimitris&nbsp;Bouras</a>
+            <div class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
+                <a href="#about" class="hover:text-brand-darker transition" data-i18n="nav.about"></a>
+                <a href="#research" class="hover:text-brand-darker transition" data-i18n="nav.research"></a>
+                <a href="#publications" class="hover:text-brand-darker transition" data-i18n="nav.publications"></a>
+                <a href="#honors" class="hover:text-brand-darker transition" data-i18n="nav.honors"></a>
+                <a href="#contact" class="hover:text-brand-darker transition" data-i18n="nav.contact"></a>
             </div>
-            <div>
-                <!-- Resume Button -->
-                <a href="cv_new.pdf" target="_blank" class="link-button">
-                    <button class="bg-gray-400 text-white font-bold py-8 px-16 rounded-full mr-2 text-lg">Resume</button>
-                </a>
-
-                <!-- LinkedIn Button -->
-                <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank">
-                    <button class="bg-blue-200 text-white font-bold py-8 px-16 rounded-full mr-2 text-lg">LinkedIn</button>
-                </a>
-
-                <!-- GitHub Button -->
-                <a href="https://github.com/jimbou" target="_blank">
-                    <button style="background-color: #A1BDC7;" class="text-white font-bold py-8 px-16 rounded-full text-lg">GitHub</button>
-                </a>
+            <div class="flex items-center gap-3">
+                <button id="lang-toggle" type="button"
+                        class="text-sm font-semibold text-gray-700 border border-gray-300 hover:bg-gray-100 transition px-3 py-2 rounded-full">
+                    <span data-lang="en">中文</span><span data-lang="zh">EN</span>
+                </button>
+                <a id="cv-nav" href="CV.pdf" target="_blank" rel="noopener"
+                   class="text-sm font-semibold text-white bg-brand hover:bg-brand-dark transition px-4 py-2 rounded-full"
+                   data-i18n="cv.short"></a>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
 
-    <!-- Footer -->
-    <footer class="w-full border-t border-gray-300 py-6 mt-auto">
-        <div class="container mx-auto px-8 flex flex-wrap justify-between items-center"  style="zoom: 80%;">
-            <!-- Telephone Numbers -->
-            <div>
-                <p class="text-lg font-semibold">Telephone</p>
-                <p>Greek Number: +30-6980247969</p>
-                <p>UK Number: +44-07533967659</p>
+    <main class="flex-grow">
+
+        <!-- ===================== HERO ===================== -->
+        <section id="top" class="container mx-auto px-6 py-14 md:py-20">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
+                <!-- Profile image -->
+                <div class="flex-shrink-0">
+                    <img class="rounded-full object-cover shadow-lg ring-4 ring-white"
+                         style="width: 320px; height: 320px;"
+                         src="images/profile.png" alt="Dimitrios Stamatios Bouras">
+                </div>
+
+                <!-- Bio -->
+                <div class="max-w-xl text-center md:text-left">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-3 text-gray-900">Dimitris Bouras</h1>
+                    <p class="text-lg text-brand-darker font-semibold mb-5" data-i18n="hero.subtitle"></p>
+                    <p class="text-gray-600 mb-4 leading-relaxed" data-i18n="hero.p1"></p>
+                    <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="hero.p2"></p>
+
+                    <!-- Buttons -->
+                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                        <a id="cv-primary" href="CV.pdf" target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-semibold px-5 py-2.5 rounded-full transition">
+                            <i class="fas fa-file-pdf"></i> <span data-i18n="cv.primary"></span>
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                            <i class="fas fa-graduation-cap"></i> <span data-i18n="link.scholar"></span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a href="https://github.com/jimbou" target="_blank" rel="noopener"
+                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- Email -->
-            <div>
-                <p class="text-lg font-semibold">Email</p>
-                <p>dimitrios.stamatios.bouras@gmail.com</p>
+        <!-- ===================== ABOUT ===================== -->
+        <section id="about" class="section-anchor bg-white border-y border-gray-200">
+            <div class="container mx-auto px-6 py-14 max-w-4xl">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="about.heading"></h2>
+                <div class="space-y-4 text-gray-600 leading-relaxed">
+                    <p data-i18n="about.p1"></p>
+                    <p data-i18n="about.p2"></p>
+                </div>
             </div>
+        </section>
 
-            <!-- Copyright Notice -->
-            <div class="text-lg">
-                © 2024 Dimitris Bouras. All rights reserved.
+        <!-- ===================== RESEARCH INTERESTS ===================== -->
+        <section id="research" class="section-anchor container mx-auto px-6 py-14 max-w-5xl">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8" data-i18n="research.heading"></h2>
+            <div id="research-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </section>
+
+        <!-- ===================== PUBLICATIONS ===================== -->
+        <section id="publications" class="section-anchor bg-white border-y border-gray-200">
+            <div class="container mx-auto px-6 py-14 max-w-4xl">
+                <div class="flex items-center justify-between mb-8 flex-wrap gap-3">
+                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="pub.heading"></h2>
+                    <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener"
+                       class="text-sm font-semibold text-brand-darker hover:underline">
+                        <span data-i18n="pub.scholar"></span> <i class="fas fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+                <ul id="publications-list" class="space-y-5"></ul>
+            </div>
+        </section>
+
+        <!-- ===================== HONORS ===================== -->
+        <section id="honors" class="section-anchor container mx-auto px-6 py-14 max-w-4xl">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8" data-i18n="honors.heading"></h2>
+            <ul id="honors-list" class="space-y-4"></ul>
+        </section>
+
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer id="contact" class="section-anchor w-full bg-gray-900 text-gray-300">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <p class="text-white font-semibold mb-2" data-i18n="footer.email"></p>
+                    <a href="mailto:bouras25@stu.pku.edu.cn" class="block hover:text-brand-light break-all">
+                        bouras25@stu.pku.edu.cn
+                    </a>
+                    <a href="mailto:dimitrios.stamatios.bouras@gmail.com" class="block hover:text-brand-light break-all mt-1">
+                        dimitrios.stamatios.bouras@gmail.com
+                    </a>
+                </div>
+                <div>
+                    <p class="text-white font-semibold mb-2" data-i18n="footer.based"></p>
+                    <p data-i18n="footer.location"></p>
+                </div>
+                <div>
+                    <p class="text-white font-semibold mb-2" data-i18n="footer.elsewhere"></p>
+                    <div class="flex gap-4 text-xl">
+                        <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                        <a href="https://github.com/jimbou" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-10 pt-6 text-sm text-gray-500">
+                © <span id="year"></span> Dimitrios Stamatios Bouras. <span data-i18n="footer.rights"></span>
             </div>
         </div>
     </footer>
 
+    <!-- ===================== DATA (edit here to update the site) ===================== -->
+    <script>
+        // ---- Static UI strings: each key has { en, zh }. HTML is allowed. ----
+        const i18n = {
+            "nav.about":        { en: "About",        zh: "关于" },
+            "nav.research":     { en: "Research",     zh: "研究" },
+            "nav.publications": { en: "Publications", zh: "论文" },
+            "nav.honors":       { en: "Honors",       zh: "荣誉" },
+            "nav.contact":      { en: "Contact",      zh: "联系" },
+
+            "cv.short":     { en: "CV",            zh: "简历" },
+            "cv.primary":   { en: "CV",            zh: "简历" },
+            "link.scholar": { en: "Scholar",       zh: "学术主页" },
+
+            "hero.subtitle": {
+                en: "PhD Researcher in Computer Science &middot; Peking University",
+                zh: "计算机科学博士研究生 &middot; 北京大学"
+            },
+            "hero.p1": {
+                en: 'I am a PhD student at the <span class="font-medium text-gray-800">Programming Languages Lab, Peking University</span>, working on <span class="font-medium text-gray-800">LLM-based program analysis</span>. I hold an MEng from the National Technical University of Athens and an MSc from UCL.',
+                zh: '我是<span class="font-medium text-gray-800">北京大学程序设计语言实验室</span>的博士生，研究方向为<span class="font-medium text-gray-800">基于大语言模型的程序分析</span>。我拥有雅典国立技术大学的工程硕士学位与伦敦大学学院（UCL）的理学硕士学位。'
+            },
+            "hero.p2": {
+                en: '<i class="fas fa-rocket text-brand-dark mr-1"></i> From June 2026 I am joining <span class="font-medium text-gray-800">Huawei Research, Shanghai</span> as a <span class="font-medium text-gray-800">PhD Research Intern on agent design for AI kernels</span>.',
+                zh: '<i class="fas fa-rocket text-brand-dark mr-1"></i> 自 2026 年 6 月起，我将加入<span class="font-medium text-gray-800">华为研究院（上海）</span>，担任<span class="font-medium text-gray-800">博士研究实习生，研究面向 AI 算子的智能体设计</span>。'
+            },
+
+            "about.heading": { en: "About", zh: "关于我" },
+            "about.p1": {
+                en: 'My research sits at the intersection of <span class="font-medium text-gray-800">programming languages, software engineering and large language models</span>. I am interested in how LLMs can reason about, analyse and improve programs — and in building <span class="font-medium text-gray-800">reliable, secure agents</span> that do this work trustworthily.',
+                zh: '我的研究处于<span class="font-medium text-gray-800">程序设计语言、软件工程与大语言模型</span>的交叉领域。我关注大语言模型如何推理、分析并改进程序，并致力于构建<span class="font-medium text-gray-800">可靠、安全的智能体</span>来可信地完成这些工作。'
+            },
+            "about.p2": {
+                en: "Before my PhD I worked as a Research Associate at the PL Lab of Peking University and as a DevOps Engineer at IBM, where I built CI/CD and cloud infrastructure for a core banking system for the National Bank of Greece.",
+                zh: "在攻读博士学位之前，我曾在北京大学程序设计语言实验室担任研究助理，并在 IBM 担任 DevOps 工程师，为希腊国家银行的核心银行系统构建了 CI/CD 流水线与云基础设施。"
+            },
+
+            "research.heading": { en: "Research Interests", zh: "研究兴趣" },
+
+            "pub.heading": { en: "Publications", zh: "论文发表" },
+            "pub.scholar": { en: "Full list on Google Scholar", zh: "完整列表见 Google Scholar" },
+
+            "honors.heading": { en: "Selected Honors & Awards", zh: "荣誉与奖项（精选）" },
+
+            "footer.email":     { en: "Email",     zh: "邮箱" },
+            "footer.based":     { en: "Based in",  zh: "所在地" },
+            "footer.location":  { en: "Beijing, China &middot; Shanghai (from June 2026)", zh: "中国北京 &middot; 上海（2026 年 6 月起）" },
+            "footer.elsewhere": { en: "Elsewhere", zh: "其他链接" },
+            "footer.rights":    { en: "All rights reserved.", zh: "保留所有权利。" }
+        };
+
+        // ---- Research interests. Translatable fields use { en, zh }. ----
+        const researchInterests = [
+            {
+                icon: "fas fa-code",
+                title: { en: "LLM-Based Program Analysis", zh: "基于大模型的程序分析" },
+                desc:  { en: "Using large language models to reason about program correctness and behaviour.",
+                         zh: "利用大语言模型推理程序的正确性与行为。" }
+            },
+            {
+                icon: "fas fa-robot",
+                title: { en: "Coding Agents & Agent Design", zh: "编程智能体与智能体设计" },
+                desc:  { en: "Designing reliable, secure agents — including prompt-injection-resistant coding agents and agents for AI kernels.",
+                         zh: "设计可靠、安全的智能体，包括抗提示注入的编程智能体以及面向 AI 算子的智能体。" }
+            },
+            {
+                icon: "fas fa-bug",
+                title: { en: "Symbolic Execution", zh: "符号执行" },
+                desc:  { en: "Combining symbolic/concolic execution with LLMs to defuse logic bombs and explore programs.",
+                         zh: "将符号 / 混合执行与大语言模型结合，拆除逻辑炸弹并探索程序。" }
+            },
+            {
+                icon: "fas fa-shield-alt",
+                title: { en: "Software Verification", zh: "软件验证" },
+                desc:  { en: "Verification-aware LLMs and AI-assisted verification of smart contracts.",
+                         zh: "面向验证的大语言模型，以及 AI 辅助的智能合约验证。" }
+            }
+        ];
+
+        // ---- Publications (newest first). Titles stay in English (standard for papers).
+        //      Add a `link` field to make a title clickable. ----
+        const publications = [
+            {
+                venue: "ICSE 2026",
+                title: "HoarePrompt: Structural Reasoning About Program Correctness in Natural Language",
+                award: { en: "ACM SIGSOFT Distinguished Paper Award", zh: "ACM SIGSOFT 杰出论文奖" }
+            },
+            {
+                venue: "ISSTA 2026",
+                title: "Gordian: Defusing Logic Bombs in Symbolic Execution with LLM-Generated Ghost Code",
+                status: { en: "Major revision", zh: "大修中" }
+            },
+            {
+                venue: "LLM4Code @ ICSE 2026",
+                title: "Statistical Independence Aware Caching for LLM Workflows"
+            },
+            {
+                venue: "LMPL Workshop",
+                title: "Authority Is Not a String: A Capability-Scoped Harness for Prompt-Injection-Resistant Coding Agents",
+                status: { en: "Under submission", zh: "投稿中" }
+            },
+            {
+                venue: "SSBSE 2025",
+                title: "Optimised Fitness Functions for Automated Improvement of Software's Execution Time"
+            },
+            {
+                venue: "GI @ ICSE 2025",
+                title: "LLM-Assisted Crossover in Genetic Improvement of Software",
+                award: { en: "Best Presentation Award", zh: "最佳报告奖" }
+            },
+            {
+                venue: "SAMOS XXIII",
+                title: "Reliable Basic Block Energy Accounting"
+            }
+        ];
+
+        // ---- Honors (most relevant first). ----
+        const honors = [
+            { year: "2026", text: { en: "ACM SIGSOFT Distinguished Paper Award, ICSE 2026",
+                                    zh: "ACM SIGSOFT 杰出论文奖，ICSE 2026" } },
+            { year: "2025", text: { en: "NSFC Research Fund for Excellent International PhD Students — Principal Investigator on verification-aware LLMs, symbolic execution and smart contract verification",
+                                    zh: "国家自然科学基金（NSFC）外国学者研究基金优秀博士生项目——作为负责人，研究面向验证的大语言模型、符号执行与智能合约验证" } },
+            { year: "2025", text: { en: "International Computer Science Excellent PhD Student Scholarship, Peking University",
+                                    zh: "北京大学国际计算机科学优秀博士生奖学金" } },
+            { year: "2025", text: { en: "Chinese Government Scholarship for PhD studies at Peking University",
+                                    zh: "中国政府奖学金（北京大学博士研究生）" } },
+            { year: "2024", text: { en: "Ranked 1st — UCL Software Systems Engineering MSc, Class of 2024",
+                                    zh: "UCL 软件系统工程硕士 2024 届第一名" } },
+            { year: "2023", text: { en: "Eugenides Foundation & HELLENiQ ENERGY scholarships for postgraduate studies",
+                                    zh: "Eugenides 基金会与 HELLENiQ ENERGY 研究生奖学金" } }
+        ];
+
+        // ---- CV files per language ----
+        const cvFiles = { en: "CV.pdf", zh: "CV_Bouras_Ch.pdf" };
+
+        // ===================== Rendering & language switching =====================
+        const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+        const pick = (field, lang) => (field && typeof field === "object" && "en" in field) ? field[lang] : field;
+
+        function renderLists(lang) {
+            document.getElementById("research-grid").innerHTML = researchInterests.map(r => `
+                <div class="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:border-brand transition">
+                    <div class="text-brand-dark text-xl mb-3"><i class="${esc(r.icon)}"></i></div>
+                    <h3 class="font-semibold text-gray-900 mb-1">${esc(pick(r.title, lang))}</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">${esc(pick(r.desc, lang))}</p>
+                </div>
+            `).join("");
+
+            document.getElementById("publications-list").innerHTML = publications.map(p => {
+                const title = p.link
+                    ? `<a href="${esc(p.link)}" target="_blank" rel="noopener" class="hover:text-brand-darker hover:underline">${esc(p.title)}</a>`
+                    : esc(p.title);
+                const award = p.award
+                    ? `<span class="inline-block mt-1 text-xs font-semibold text-brand-darker bg-brand-light rounded-full px-2.5 py-0.5"><i class="fas fa-award mr-1"></i>${esc(pick(p.award, lang))}</span>`
+                    : "";
+                const status = p.status
+                    ? `<span class="inline-block mt-1 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full px-2.5 py-0.5">${esc(pick(p.status, lang))}</span>`
+                    : "";
+                return `
+                    <li class="flex flex-col sm:flex-row gap-2 sm:gap-5">
+                        <span class="flex-shrink-0 sm:w-44 text-sm font-semibold text-brand-dark pt-0.5">${esc(p.venue)}</span>
+                        <div>
+                            <p class="text-gray-900 font-medium leading-snug">${title}</p>
+                            <div class="flex flex-wrap gap-2">${award}${status}</div>
+                        </div>
+                    </li>`;
+            }).join("");
+
+            document.getElementById("honors-list").innerHTML = honors.map(h => `
+                <li class="flex gap-4">
+                    <span class="flex-shrink-0 w-14 text-sm font-bold text-brand-dark pt-0.5">${esc(h.year)}</span>
+                    <span class="text-gray-700">${esc(pick(h.text, lang))}</span>
+                </li>
+            `).join("");
+        }
+
+        function setLang(lang) {
+            if (lang !== "zh") lang = "en";
+            document.documentElement.setAttribute("lang", lang);
+            // Static strings
+            document.querySelectorAll("[data-i18n]").forEach(el => {
+                const entry = i18n[el.getAttribute("data-i18n")];
+                if (entry) el.innerHTML = entry[lang];
+            });
+            // CV links point to the matching language PDF
+            const cv = cvFiles[lang];
+            document.getElementById("cv-nav").setAttribute("href", cv);
+            document.getElementById("cv-primary").setAttribute("href", cv);
+            // Data-driven lists
+            renderLists(lang);
+            try { localStorage.setItem("lang", lang); } catch (e) {}
+        }
+
+        // Init
+        let initial = "en";
+        try { if (localStorage.getItem("lang") === "zh") initial = "zh"; } catch (e) {}
+        setLang(initial);
+
+        document.getElementById("lang-toggle").addEventListener("click", () => {
+            setLang(document.documentElement.getAttribute("lang") === "zh" ? "en" : "zh");
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>
-
