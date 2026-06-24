@@ -103,6 +103,10 @@
                            class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
                             <i class="fab fa-github"></i> GitHub
                         </a>
+                        <button id="wechat-btn" type="button" aria-haspopup="dialog"
+                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                            <i class="fab fa-weixin text-[#07C160]"></i> <span data-i18n="link.wechat"></span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -179,6 +183,20 @@
         </div>
     </footer>
 
+    <!-- ===================== WECHAT QR POPUP ===================== -->
+    <div id="wechat-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="wechat-title">
+        <div id="wechat-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl p-6 max-w-xs w-full text-center">
+            <button id="wechat-close" type="button" aria-label="Close"
+                    class="absolute top-3 right-3 w-8 h-8 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 id="wechat-title" class="font-semibold text-gray-900 mb-1" data-i18n="wechat.title"></h3>
+            <p class="text-sm text-gray-500 mb-4" data-i18n="wechat.hint"></p>
+            <img src="images/wechatqr.png" alt="WeChat QR code" class="w-56 h-56 mx-auto rounded-lg ring-1 ring-gray-200">
+        </div>
+    </div>
+
     <!-- ===================== DATA (edit here to update the site) ===================== -->
     <script>
         // ---- Static UI strings: each key has { en, zh }. HTML is allowed. ----
@@ -192,13 +210,17 @@
             "cv.short":     { en: "CV",            zh: "简历" },
             "cv.primary":   { en: "CV",            zh: "简历" },
             "link.scholar": { en: "Scholar",       zh: "学术主页" },
+            "link.wechat":  { en: "WeChat",        zh: "微信" },
+
+            "wechat.title": { en: "Scan to add me on WeChat", zh: "扫码添加微信" },
+            "wechat.hint":  { en: "Open WeChat and scan the QR code", zh: "打开微信，扫一扫" },
 
             "hero.subtitle": {
                 en: "PhD Researcher in Computer Science &middot; Peking University",
                 zh: "计算机科学博士研究生 &middot; 北京大学"
             },
             "hero.p1": {
-                en: 'I am a PhD student at the <span class="font-medium text-gray-800">Programming Languages Lab, Peking University</span>, working on <span class="font-medium text-gray-800">LLM-based program analysis</span>. I hold an MEng from the National Technical University of Athens and an MSc from UCL.',
+                en: 'I am a PhD student at the <span class="font-medium text-gray-800">Programming Languages Lab, Peking University</span>, working on <span class="font-medium text-gray-800">LLM-based program analysis</span>. I hold an MEng from the National Technical University of Athens and an MSc from University College London (UCL).',
                 zh: '我是<span class="font-medium text-gray-800">北京大学程序设计语言实验室</span>的博士生，研究方向为<span class="font-medium text-gray-800">基于大语言模型的程序分析</span>。我拥有雅典国立技术大学的工程硕士学位与伦敦大学学院（UCL）的理学硕士学位。'
             },
             "hero.p2": {
@@ -380,6 +402,15 @@
         document.getElementById("lang-toggle").addEventListener("click", () => {
             setLang(document.documentElement.getAttribute("lang") === "zh" ? "en" : "zh");
         });
+
+        // ---- WeChat QR popup ----
+        const wechatModal = document.getElementById("wechat-modal");
+        const openWechat  = () => { wechatModal.classList.remove("hidden"); document.body.style.overflow = "hidden"; };
+        const closeWechat = () => { wechatModal.classList.add("hidden"); document.body.style.overflow = ""; };
+        document.getElementById("wechat-btn").addEventListener("click", openWechat);
+        document.getElementById("wechat-close").addEventListener("click", closeWechat);
+        document.getElementById("wechat-overlay").addEventListener("click", closeWechat);
+        document.addEventListener("keydown", e => { if (e.key === "Escape") closeWechat(); });
 
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
