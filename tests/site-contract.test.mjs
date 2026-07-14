@@ -57,3 +57,8 @@ test("renders the portrait as a clean shadowed circle", () => {
   assert.match(html, /\.portrait-wrap::before, \.portrait-wrap::after \{ content: none; \}/);
   assert.match(html, /\.portrait-wrap img \{[^}]*border-radius: 50%[^}]*box-shadow:/s);
 });
+
+test("describes the Huawei AI kernel optimisation work in both languages", () => {
+  assert.match(html, /agent design for AI kernel optimisation/);
+  assert.match(html, /面向 AI 算子优化的智能体设计/);
+});
