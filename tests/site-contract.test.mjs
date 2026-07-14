@@ -46,3 +46,14 @@ test("resets mobile navigation when returning to desktop", () => {
   assert.match(html, /window\.innerWidth > 860/);
   assert.match(html, /@media \(min-width: 861px\)/);
 });
+
+test("uses the original sans-serif identity at the top", () => {
+  assert.match(html, /--ui-sans:/);
+  assert.match(html, /\.site-header \{[^}]*font-family: var\(--ui-sans\)/s);
+  assert.match(html, /\.hero-copy h1 \{[^}]*font-family: var\(--ui-sans\)[^}]*font-weight: 700/s);
+});
+
+test("renders the portrait as a clean shadowed circle", () => {
+  assert.match(html, /\.portrait-wrap::before, \.portrait-wrap::after \{ content: none; \}/);
+  assert.match(html, /\.portrait-wrap img \{[^}]*border-radius: 50%[^}]*box-shadow:/s);
+});
