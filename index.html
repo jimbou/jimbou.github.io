@@ -180,6 +180,8 @@
         .publication-row { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 28px; padding: 25px 0 27px; border-bottom: 1px solid var(--line); }
         .publication-venue { color: var(--brand-deep); font: 700 .75rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
         .publication-title { margin: 0; color: var(--ink); font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.52rem); font-weight: 500; letter-spacing: -.025em; line-height: 1.25; }
+        .publication-title-link { color: inherit; text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+        .publication-title-link:hover { color: var(--brand-deep); text-decoration-thickness: 2px; }
         .publication-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
         .publication-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; background: var(--brand-wash); color: var(--brand-deep); font-size: .72rem; font-weight: 700; }
         .publication-badge.status { background: var(--paper-deep); color: var(--ink-soft); }
@@ -214,6 +216,10 @@
             .hero-grid { grid-template-columns: 235px minmax(0, 1fr); gap: 48px; }
             .hero-copy h1 { font-size: clamp(3rem, 8vw, 4.5rem); }
             .about-copy { grid-template-columns: 1fr; gap: 20px; }
+        }
+
+        @media (min-width: 861px) {
+            .mobile-nav { display: none !important; }
         }
 
         @media (max-width: 680px) {
@@ -601,6 +607,9 @@
             `).join("");
 
             document.getElementById("publications-list").innerHTML = publications.map(p => {
+                const title = p.link
+                    ? `<a href="${esc(p.link)}" target="_blank" rel="noopener" class="publication-title-link">${esc(p.title)}</a>`
+                    : esc(p.title);
                 const award = p.award
                     ? `<span class="publication-badge"><i class="fas fa-award" aria-hidden="true"></i>${esc(pick(p.award, lang))}</span>`
                     : "";
@@ -617,9 +626,9 @@
                 ].filter(Boolean).join("");
                 return `
                     <li class="publication-row">
-                        <span class="publication-venue">${esc(p.venue)}</span>
-                        <div>
-                            <p class="publication-title">${esc(p.title)}</p>
+                            <span class="publication-venue">${esc(p.venue)}</span>
+                            <div>
+                                <p class="publication-title">${title}</p>
                             ${(award || status) ? `<div class="publication-meta">${award}${status}</div>` : ""}
                             ${actions ? `<div class="publication-actions">${actions}</div>` : ""}
                         </div>
@@ -673,6 +682,9 @@
             navToggle.setAttribute("aria-expanded", String(willOpen));
         });
         mobileNav.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMobileNav));
+        window.addEventListener("resize", () => {
+            if (window.innerWidth > 860) closeMobileNav();
+        });
 
         // ---- WeChat QR popup ----
         const wechatModal = document.getElementById("wechat-modal");

@@ -29,6 +29,20 @@ test("adds accessible mobile navigation hooks", () => {
   assert.match(html, /id="mobile-nav"/);
 });
 
-test("uses safe external project links", () => {
-  assert.match(html, /target="_blank" rel="noopener"/);
+test("keeps paper-backed publication titles linked", () => {
+  assert.match(html, /const title = p\.link/);
+  assert.match(html, /<p class="publication-title">\$\{title\}<\/p>/);
+});
+
+test("renders safe external project links", () => {
+  assert.match(
+    html,
+    /p\.project\s*\?\s*`<a href="\$\{esc\(p\.project\)\}" target="_blank" rel="noopener"/,
+  );
+});
+
+test("resets mobile navigation when returning to desktop", () => {
+  assert.match(html, /window\.addEventListener\("resize"/);
+  assert.match(html, /window\.innerWidth > 860/);
+  assert.match(html, /@media \(min-width: 861px\)/);
 });
