@@ -4,16 +4,24 @@ import { readFile } from "node:fs/promises";
 
 const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
 
-test("exposes all five paper project pages", () => {
+test("exposes all six paper project pages", () => {
   for (const url of [
     "https://bouras.online/hoareprompt/",
     "https://bouras.online/gordian/",
     "https://bouras.online/capscope/",
     "https://bouras.online/llmcrossover/",
     "https://bouras.online/fitness/",
+    "https://bouras.online/mnimi/",
   ]) {
     assert.match(html, new RegExp(url.replaceAll("/", "\\/")));
   }
+});
+
+test("associates Mnimi with statistical-independence-aware caching", () => {
+  assert.match(
+    html,
+    /title: "Statistical Independence Aware Caching for LLM Workflows",\s+project: "https:\/\/bouras\.online\/mnimi\/"/,
+  );
 });
 
 test("keeps bilingual and publication rendering hooks", () => {
