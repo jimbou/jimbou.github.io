@@ -70,3 +70,9 @@ test("describes the Huawei AI kernel optimisation work in both languages", () =>
   assert.match(html, /agent design for AI kernel optimisation/);
   assert.match(html, /面向 AI 算子优化的智能体设计/);
 });
+
+test("keeps the unaccepted CapScope venue confidential", () => {
+  assert.doesNotMatch(html, /LMPL Workshop/);
+  assert.match(html, /venue: \{ en: "Under submission", zh: "投稿中" \}/);
+  assert.match(html, /publication-venue">\$\{esc\(pick\(p\.venue, lang\)\)\}/);
+});

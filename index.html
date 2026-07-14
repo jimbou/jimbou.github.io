@@ -550,10 +550,9 @@
                 link: "https://arxiv.org/abs/2511.22118"
             },
             {
-                venue: "LMPL Workshop",
+                venue: { en: "Under submission", zh: "投稿中" },
                 title: "Authority Is Not a String: A Capability-Scoped Harness for Prompt-Injection-Resistant Coding Agents",
-                project: "https://bouras.online/capscope/",
-                status: { en: "Under submission", zh: "投稿中" }
+                project: "https://bouras.online/capscope/"
             },
             {
                 venue: "SSBSE 2025",
@@ -628,7 +627,7 @@
                 ].filter(Boolean).join("");
                 return `
                     <li class="publication-row">
-                            <span class="publication-venue">${esc(p.venue)}</span>
+                                <span class="publication-venue">${esc(pick(p.venue, lang))}</span>
                             <div>
                                 <p class="publication-title">${title}</p>
                             ${(award || status) ? `<div class="publication-meta">${award}${status}</div>` : ""}
