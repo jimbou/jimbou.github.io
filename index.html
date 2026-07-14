@@ -12,10 +12,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="manifest" href="images/site.webmanifest">
     <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#f8f6f1">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -33,35 +36,246 @@
         }
     </script>
     <style>
-        html { scroll-behavior: smooth; }
+        :root {
+            color-scheme: light;
+            --paper: #f8f6f1;
+            --paper-deep: #eeece5;
+            --surface: #fffefa;
+            --ink: #20272b;
+            --ink-soft: #596369;
+            --muted: #7c8589;
+            --line: #dcdedb;
+            --brand: #5f8792;
+            --brand-deep: #345d69;
+            --brand-wash: #e5eef0;
+            --amber: #a86124;
+            --amber-wash: #f7eadc;
+            --serif: "Newsreader", Iowan Old Style, Georgia, serif;
+            --sans: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --mono: "DM Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            --shell: 1120px;
+            --radius: 16px;
+            --shadow: 0 24px 60px rgba(38, 51, 55, 0.09);
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 82px; }
+        body {
+            margin: 0;
+            color: var(--ink);
+            background: var(--paper);
+            font-family: var(--sans);
+            font-size: 17px;
+            line-height: 1.62;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+        a, button { -webkit-tap-highlight-color: transparent; }
+        a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
+        h1, h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.045em; }
+        .site-shell { width: min(calc(100% - 48px), var(--shell)); margin-inline: auto; }
         .section-anchor { scroll-margin-top: 5rem; }
-        /* Show text matching the active language (set on <html lang>) */
         [data-lang] { display: none; }
         html[lang="en"] [data-lang="en"],
         html[lang="zh"] [data-lang="zh"] { display: inline; }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            border-bottom: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+            background: color-mix(in srgb, var(--paper) 90%, transparent);
+            backdrop-filter: blur(16px) saturate(1.2);
+        }
+        .nav-shell { min-height: 68px; display: flex; align-items: center; gap: 28px; }
+        .wordmark { display: inline-flex; align-items: baseline; gap: 2px; color: var(--ink); font-family: var(--serif); font-size: 1.42rem; font-weight: 600; letter-spacing: -0.035em; text-decoration: none; }
+        .wordmark-dot { color: var(--amber); }
+        .desktop-nav { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 30px); margin-left: auto; }
+        .desktop-nav a, .mobile-nav a { color: var(--ink-soft); font-size: .88rem; font-weight: 600; text-decoration: none; }
+        .desktop-nav a:hover, .mobile-nav a:hover { color: var(--brand-deep); }
+        .nav-actions { display: flex; align-items: center; gap: 9px; }
+        .nav-control, .nav-cv, .nav-toggle {
+            min-height: 37px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--surface) 80%, transparent);
+            color: var(--ink-soft);
+            font: 700 .8rem/1 var(--sans);
+        }
+        .nav-control, .nav-toggle { padding: 0 13px; cursor: pointer; }
+        .nav-cv { display: inline-flex; align-items: center; padding: 0 15px; color: #fff; border-color: var(--brand-deep); background: var(--brand-deep); text-decoration: none; }
+        .nav-control:hover, .nav-toggle:hover { color: var(--brand-deep); border-color: var(--brand); }
+        .nav-cv:hover { background: #284d57; }
+        .nav-toggle { display: none; width: 39px; padding: 0; }
+        .mobile-nav { border-top: 1px solid var(--line); background: var(--surface); }
+        .mobile-nav-inner { width: min(calc(100% - 48px), var(--shell)); margin: 0 auto; padding: 12px 0 17px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .mobile-nav a { padding: 5px 0; text-align: center; }
+
+        .hero { position: relative; overflow: hidden; padding: clamp(64px, 8vw, 108px) 0 clamp(70px, 9vw, 118px); }
+        .hero::before {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            content: "";
+            background:
+                radial-gradient(50% 70% at 88% 0%, color-mix(in srgb, var(--brand-wash) 86%, transparent), transparent 72%),
+                radial-gradient(35% 55% at 3% 100%, color-mix(in srgb, var(--amber-wash) 58%, transparent), transparent 74%);
+        }
+        .hero-grid { display: grid; grid-template-columns: 315px minmax(0, 1fr); align-items: center; gap: clamp(52px, 8vw, 104px); }
+        .portrait-wrap { position: relative; margin: 0; }
+        .portrait-wrap::before { position: absolute; inset: 18px -18px -18px 18px; content: ""; border: 1px solid var(--brand); border-radius: 46% 46% 45% 45%; opacity: .45; }
+        .portrait-wrap::after { position: absolute; right: -20px; bottom: -23px; width: 72px; height: 72px; content: ""; border-radius: 50%; background: var(--amber-wash); }
+        .portrait-wrap img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 1; border: 8px solid var(--surface); border-radius: 46% 46% 45% 45%; object-fit: cover; box-shadow: var(--shadow); }
+        .eyebrow, .section-kicker {
+            margin: 0 0 14px;
+            color: var(--brand-deep);
+            font: 700 .72rem/1.2 var(--sans);
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+        .hero-copy h1 { margin: 0 0 10px; font-size: clamp(3.3rem, 6.2vw, 5.6rem); line-height: .93; }
+        .hero-subtitle { margin: 0 0 25px; color: var(--brand-deep); font-size: 1.06rem; font-weight: 700; }
+        .hero-body { max-width: 670px; margin: 0 0 16px; color: var(--ink-soft); line-height: 1.66; }
+        .hero-status { max-width: 670px; margin: 22px 0 28px; padding: 14px 17px; color: var(--ink-soft); border-left: 3px solid var(--amber); background: color-mix(in srgb, var(--amber-wash) 60%, transparent); font-size: .94rem; }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+        .action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 15px;
+            color: var(--ink-soft);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--surface);
+            font-size: .87rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: transform 150ms ease, border-color 150ms ease, color 150ms ease;
+        }
+        button.action { cursor: pointer; }
+        .action:hover { color: var(--brand-deep); border-color: var(--brand); transform: translateY(-1px); }
+        .action-primary { color: #fff; border-color: var(--brand-deep); background: var(--brand-deep); }
+        .action-primary:hover { color: #fff; background: #284d57; }
+
+        .site-section { padding: clamp(70px, 9vw, 108px) 0; border-top: 1px solid var(--line); }
+        .section-tint { background: color-mix(in srgb, var(--surface) 58%, var(--paper)); }
+        .narrow-shell { max-width: 850px; }
+        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 38px; }
+        .section-heading h2 { margin: 0; font-size: clamp(2.35rem, 4.5vw, 3.55rem); line-height: 1.02; }
+        .section-heading > a { flex: 0 0 auto; color: var(--brand-deep); font-size: .86rem; font-weight: 700; text-decoration: none; }
+        .section-heading > a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .about-copy { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 70px); color: var(--ink-soft); }
+        .about-copy p { margin: 0; }
+
+        .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .research-card { position: relative; min-height: 215px; padding: 26px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
+        .research-card:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 14px 35px rgba(38, 51, 55, .07); }
+        .research-card-index { display: block; margin-bottom: 42px; color: var(--amber); font: 500 .7rem/1 var(--mono); }
+        .research-card-icon { position: absolute; top: 24px; right: 25px; color: var(--brand); font-size: 1.05rem; }
+        .research-card h3 { margin: 0 0 8px; font-size: 1.12rem; }
+        .research-card p { margin: 0; color: var(--ink-soft); font-size: .91rem; line-height: 1.5; }
+
+        .publication-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+        .publication-row { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 28px; padding: 25px 0 27px; border-bottom: 1px solid var(--line); }
+        .publication-venue { color: var(--brand-deep); font: 700 .75rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+        .publication-title { margin: 0; color: var(--ink); font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.52rem); font-weight: 500; letter-spacing: -.025em; line-height: 1.25; }
+        .publication-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+        .publication-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; background: var(--brand-wash); color: var(--brand-deep); font-size: .72rem; font-weight: 700; }
+        .publication-badge.status { background: var(--paper-deep); color: var(--ink-soft); }
+        .publication-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 15px; }
+        .publication-link { color: var(--brand-deep); font-size: .79rem; font-weight: 700; text-decoration: none; }
+        .publication-link:hover { color: var(--amber); }
+
+        .honors-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+        .honor-row { display: grid; grid-template-columns: 75px minmax(0, 1fr); gap: 25px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+        .honor-year { color: var(--amber); font: 500 .76rem/1.7 var(--mono); }
+        .honor-text { color: var(--ink-soft); }
+
+        .site-footer { color: #c7d0d2; background: #1f2b2f; }
+        .footer-shell { padding: 62px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: 1.3fr .8fr .7fr; gap: 50px; }
+        .footer-label { margin: 0 0 11px; color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .site-footer a { color: inherit; text-decoration: none; }
+        .site-footer a:hover { color: #fff; }
+        .footer-socials { display: flex; gap: 19px; font-size: 1.1rem; }
+        .footer-bottom { margin-top: 46px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.13); color: #849397; font-size: .78rem; }
+
+        .wechat-card { position: relative; width: min(100%, 320px); padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-align: center; }
+        .wechat-card h3 { margin: 0 0 3px; font-family: var(--serif); font-size: 1.45rem; }
+        .wechat-card p { margin: 0 0 17px; color: var(--muted); font-size: .85rem; }
+        .wechat-close { position: absolute; top: 11px; right: 11px; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
+        .wechat-close:hover { color: var(--ink); background: var(--paper-deep); }
+
+        @media (max-width: 860px) {
+            .desktop-nav { display: none; }
+            .nav-actions { margin-left: auto; }
+            .nav-toggle { display: inline-grid; place-items: center; }
+            .hero-grid { grid-template-columns: 235px minmax(0, 1fr); gap: 48px; }
+            .hero-copy h1 { font-size: clamp(3rem, 8vw, 4.5rem); }
+            .about-copy { grid-template-columns: 1fr; gap: 20px; }
+        }
+
+        @media (max-width: 680px) {
+            body { font-size: 16px; }
+            .site-shell, .mobile-nav-inner { width: min(calc(100% - 36px), var(--shell)); }
+            .wordmark { font-size: 1.25rem; }
+            .nav-control { padding-inline: 10px; }
+            .mobile-nav-inner { grid-template-columns: repeat(2, 1fr); }
+            .mobile-nav a { text-align: left; }
+            .hero { padding-top: 46px; }
+            .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+            .portrait-wrap { width: min(72vw, 285px); margin-inline: auto; }
+            .hero-copy { text-align: left; }
+            .hero-copy h1 { font-size: clamp(3.15rem, 16vw, 4.7rem); }
+            .section-heading { align-items: flex-start; flex-direction: column; gap: 13px; margin-bottom: 30px; }
+            .research-grid { grid-template-columns: 1fr; }
+            .research-card { min-height: 0; }
+            .publication-row { grid-template-columns: 1fr; gap: 8px; }
+            .publication-venue { padding-top: 0; }
+            .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+            .footer-bottom { margin-top: 35px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen antialiased">
+<body class="flex flex-col min-h-screen antialiased">
 
     <!-- ===================== NAV ===================== -->
-    <header class="sticky top-0 z-30 bg-gray-50/90 backdrop-blur border-b border-gray-200">
-        <nav class="container mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="#top" class="font-bold text-lg tracking-tight text-gray-900">Dimitris&nbsp;Bouras</a>
-            <div class="hidden md:flex items-center gap-7 text-sm font-medium text-gray-600">
+    <header class="site-header">
+        <nav class="site-shell nav-shell" aria-label="Primary navigation">
+            <a href="#top" class="wordmark">Dimitris&nbsp;Bouras<span class="wordmark-dot">.</span></a>
+            <div class="desktop-nav">
                 <a href="#about" class="hover:text-brand-darker transition" data-i18n="nav.about"></a>
                 <a href="#research" class="hover:text-brand-darker transition" data-i18n="nav.research"></a>
                 <a href="#publications" class="hover:text-brand-darker transition" data-i18n="nav.publications"></a>
                 <a href="#honors" class="hover:text-brand-darker transition" data-i18n="nav.honors"></a>
                 <a href="#contact" class="hover:text-brand-darker transition" data-i18n="nav.contact"></a>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="nav-actions">
                 <button id="lang-toggle" type="button"
-                        class="text-sm font-semibold text-gray-700 border border-gray-300 hover:bg-gray-100 transition px-3 py-2 rounded-full">
+                        class="nav-control" aria-label="Switch language">
                     <span data-lang="en">中文</span><span data-lang="zh">EN</span>
                 </button>
                 <a id="cv-nav" href="CV.pdf" target="_blank" rel="noopener"
-                   class="text-sm font-semibold text-white bg-brand hover:bg-brand-dark transition px-4 py-2 rounded-full"
+                   class="nav-cv"
                    data-i18n="cv.short"></a>
+                <button id="nav-toggle" class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open navigation">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </nav>
+        <nav id="mobile-nav" class="mobile-nav hidden" aria-label="Mobile navigation">
+            <div class="mobile-nav-inner">
+                <a href="#about" data-i18n="nav.about"></a>
+                <a href="#research" data-i18n="nav.research"></a>
+                <a href="#publications" data-i18n="nav.publications"></a>
+                <a href="#honors" data-i18n="nav.honors"></a>
+                <a href="#contact" data-i18n="nav.contact"></a>
             </div>
         </nav>
     </header>
@@ -69,42 +283,39 @@
     <main class="flex-grow">
 
         <!-- ===================== HERO ===================== -->
-        <section id="top" class="container mx-auto px-6 py-14 md:py-20">
-            <div class="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16">
-                <!-- Profile image -->
-                <div class="flex-shrink-0">
-                    <img class="rounded-full object-cover shadow-lg ring-4 ring-white"
-                         style="width: 320px; height: 320px;"
-                         src="images/profile.png" alt="Dimitrios Stamatios Bouras">
-                </div>
+        <section id="top" class="hero">
+            <div class="site-shell hero-grid">
+                <figure class="portrait-wrap">
+                    <img src="images/profile.png" alt="Dimitrios Stamatios Bouras">
+                </figure>
 
-                <!-- Bio -->
-                <div class="max-w-xl text-center md:text-left">
-                    <h1 class="text-4xl md:text-5xl font-bold mb-3 text-gray-900">Dimitris Bouras</h1>
-                    <p class="text-lg text-brand-darker font-semibold mb-5" data-i18n="hero.subtitle"></p>
-                    <p class="text-gray-600 mb-4 leading-relaxed" data-i18n="hero.p1"></p>
-                    <p class="text-gray-600 mb-6 leading-relaxed" data-i18n="hero.p2"></p>
+                <div class="hero-copy">
+                    <p class="eyebrow" data-i18n="hero.eyebrow"></p>
+                    <h1>Dimitris Bouras</h1>
+                    <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
+                    <p class="hero-body" data-i18n="hero.p1"></p>
+                    <p class="hero-status" data-i18n="hero.p2"></p>
 
                     <!-- Buttons -->
-                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                    <div class="hero-actions">
                         <a id="cv-primary" href="CV.pdf" target="_blank" rel="noopener"
-                           class="inline-flex items-center gap-2 bg-brand hover:bg-brand-dark text-white font-semibold px-5 py-2.5 rounded-full transition">
+                           class="action action-primary">
                             <i class="fas fa-file-pdf"></i> <span data-i18n="cv.primary"></span>
                         </a>
                         <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener"
-                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                           class="action">
                             <i class="fas fa-graduation-cap"></i> <span data-i18n="link.scholar"></span>
                         </a>
                         <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener"
-                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                           class="action">
                             <i class="fab fa-linkedin"></i> LinkedIn
                         </a>
                         <a href="https://github.com/jimbou" target="_blank" rel="noopener"
-                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                           class="action">
                             <i class="fab fa-github"></i> GitHub
                         </a>
                         <button id="wechat-btn" type="button" aria-haspopup="dialog"
-                           class="inline-flex items-center gap-2 bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 font-semibold px-5 py-2.5 rounded-full transition">
+                           class="action">
                             <i class="fab fa-weixin text-[#07C160]"></i> <span data-i18n="link.wechat"></span>
                         </button>
                     </div>
@@ -113,10 +324,15 @@
         </section>
 
         <!-- ===================== ABOUT ===================== -->
-        <section id="about" class="section-anchor bg-white border-y border-gray-200">
-            <div class="container mx-auto px-6 py-14 max-w-4xl">
-                <h2 class="text-2xl font-bold text-gray-900 mb-6" data-i18n="about.heading"></h2>
-                <div class="space-y-4 text-gray-600 leading-relaxed">
+        <section id="about" class="section-anchor site-section section-tint">
+            <div class="site-shell narrow-shell">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker" data-i18n="about.kicker"></p>
+                        <h2 data-i18n="about.heading"></h2>
+                    </div>
+                </div>
+                <div class="about-copy">
                     <p data-i18n="about.p1"></p>
                     <p data-i18n="about.p2"></p>
                 </div>
@@ -124,39 +340,56 @@
         </section>
 
         <!-- ===================== RESEARCH INTERESTS ===================== -->
-        <section id="research" class="section-anchor container mx-auto px-6 py-14 max-w-5xl">
-            <h2 class="text-2xl font-bold text-gray-900 mb-8" data-i18n="research.heading"></h2>
-            <div id="research-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <section id="research" class="section-anchor site-section">
+            <div class="site-shell">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker" data-i18n="research.kicker"></p>
+                        <h2 data-i18n="research.heading"></h2>
+                    </div>
+                </div>
+                <div id="research-grid" class="research-grid"></div>
+            </div>
         </section>
 
         <!-- ===================== PUBLICATIONS ===================== -->
-        <section id="publications" class="section-anchor bg-white border-y border-gray-200">
-            <div class="container mx-auto px-6 py-14 max-w-4xl">
-                <div class="flex items-center justify-between mb-8 flex-wrap gap-3">
-                    <h2 class="text-2xl font-bold text-gray-900" data-i18n="pub.heading"></h2>
+        <section id="publications" class="section-anchor site-section section-tint">
+            <div class="site-shell">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker" data-i18n="pub.kicker"></p>
+                        <h2 data-i18n="pub.heading"></h2>
+                    </div>
                     <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener"
-                       class="text-sm font-semibold text-brand-darker hover:underline">
+                       >
                         <span data-i18n="pub.scholar"></span> <i class="fas fa-arrow-right text-xs"></i>
                     </a>
                 </div>
-                <ul id="publications-list" class="space-y-5"></ul>
+                <ul id="publications-list" class="publication-list"></ul>
             </div>
         </section>
 
         <!-- ===================== HONORS ===================== -->
-        <section id="honors" class="section-anchor container mx-auto px-6 py-14 max-w-4xl">
-            <h2 class="text-2xl font-bold text-gray-900 mb-8" data-i18n="honors.heading"></h2>
-            <ul id="honors-list" class="space-y-4"></ul>
+        <section id="honors" class="section-anchor site-section">
+            <div class="site-shell narrow-shell">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker" data-i18n="honors.kicker"></p>
+                        <h2 data-i18n="honors.heading"></h2>
+                    </div>
+                </div>
+                <ul id="honors-list" class="honors-list"></ul>
+            </div>
         </section>
 
     </main>
 
     <!-- ===================== FOOTER ===================== -->
-    <footer id="contact" class="section-anchor w-full bg-gray-900 text-gray-300">
-        <div class="container mx-auto px-6 py-12">
-            <div class="grid md:grid-cols-3 gap-8">
+    <footer id="contact" class="section-anchor site-footer">
+        <div class="site-shell footer-shell">
+            <div class="footer-grid">
                 <div>
-                    <p class="text-white font-semibold mb-2" data-i18n="footer.email"></p>
+                    <p class="footer-label" data-i18n="footer.email"></p>
                     <a href="mailto:bouras25@stu.pku.edu.cn" class="block hover:text-brand-light break-all">
                         bouras25@stu.pku.edu.cn
                     </a>
@@ -165,19 +398,19 @@
                     </a>
                 </div>
                 <div>
-                    <p class="text-white font-semibold mb-2" data-i18n="footer.based"></p>
+                    <p class="footer-label" data-i18n="footer.based"></p>
                     <p data-i18n="footer.location"></p>
                 </div>
                 <div>
-                    <p class="text-white font-semibold mb-2" data-i18n="footer.elsewhere"></p>
-                    <div class="flex gap-4 text-xl">
+                    <p class="footer-label" data-i18n="footer.elsewhere"></p>
+                    <div class="footer-socials">
                         <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
                         <a href="https://github.com/jimbou" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="GitHub"><i class="fab fa-github"></i></a>
                         <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>
-            <div class="border-t border-gray-700 mt-10 pt-6 text-sm text-gray-500">
+            <div class="footer-bottom">
                 © <span id="year"></span> Dimitrios Stamatios Bouras. <span data-i18n="footer.rights"></span>
             </div>
         </div>
@@ -186,13 +419,13 @@
     <!-- ===================== WECHAT QR POPUP ===================== -->
     <div id="wechat-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="wechat-title">
         <div id="wechat-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-        <div class="relative bg-white rounded-2xl shadow-2xl p-6 max-w-xs w-full text-center">
+        <div class="wechat-card">
             <button id="wechat-close" type="button" aria-label="Close"
-                    class="absolute top-3 right-3 w-8 h-8 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition flex items-center justify-center">
+                    class="wechat-close">
                 <i class="fas fa-times"></i>
             </button>
-            <h3 id="wechat-title" class="font-semibold text-gray-900 mb-1" data-i18n="wechat.title"></h3>
-            <p class="text-sm text-gray-500 mb-4" data-i18n="wechat.hint"></p>
+            <h3 id="wechat-title" data-i18n="wechat.title"></h3>
+            <p data-i18n="wechat.hint"></p>
             <img src="images/wechatqr.png" alt="WeChat QR code" class="w-56 h-56 mx-auto rounded-lg ring-1 ring-gray-200">
         </div>
     </div>
@@ -215,6 +448,7 @@
             "wechat.title": { en: "Scan to add me on WeChat", zh: "扫码添加微信" },
             "wechat.hint":  { en: "Open WeChat and scan the QR code", zh: "打开微信，扫一扫" },
 
+            "hero.eyebrow": { en: "Programming languages · Software engineering · AI", zh: "程序设计语言 · 软件工程 · 人工智能" },
             "hero.subtitle": {
                 en: "PhD Researcher in Computer Science &middot; Peking University",
                 zh: "计算机科学博士研究生 &middot; 北京大学"
@@ -229,6 +463,7 @@
             },
 
             "about.heading": { en: "About", zh: "关于我" },
+            "about.kicker":  { en: "Profile", zh: "个人简介" },
             "about.p1": {
                 en: 'My research sits at the intersection of <span class="font-medium text-gray-800">programming languages, software engineering and large language models</span>. I am interested in how LLMs can reason about, analyse and improve programs — and in building <span class="font-medium text-gray-800">reliable, secure agents</span> that do this work trustworthily.',
                 zh: '我的研究处于<span class="font-medium text-gray-800">程序设计语言、软件工程与大语言模型</span>的交叉领域。我关注大语言模型如何推理、分析并改进程序，并致力于构建<span class="font-medium text-gray-800">可靠、安全的智能体</span>来可信地完成这些工作。'
@@ -239,11 +474,16 @@
             },
 
             "research.heading": { en: "Research Interests", zh: "研究兴趣" },
+            "research.kicker":  { en: "Research agenda", zh: "研究方向" },
 
             "pub.heading": { en: "Publications", zh: "论文发表" },
+            "pub.kicker":  { en: "Selected work", zh: "代表性工作" },
             "pub.scholar": { en: "Full list on Google Scholar", zh: "完整列表见 Google Scholar" },
+            "pub.project": { en: "Project", zh: "项目主页" },
+            "pub.paper":   { en: "Paper", zh: "论文" },
 
             "honors.heading": { en: "Selected Honors & Awards", zh: "荣誉与奖项（精选）" },
+            "honors.kicker":  { en: "Recognition", zh: "荣誉" },
 
             "footer.email":     { en: "Email",     zh: "邮箱" },
             "footer.based":     { en: "Based in",  zh: "所在地" },
@@ -286,12 +526,14 @@
             {
                 venue: "ICSE 2026",
                 title: "HoarePrompt: Structural Reasoning About Program Correctness in Natural Language",
+                project: "https://bouras.online/hoareprompt/",
                 link: "https://arxiv.org/abs/2503.19599",
                 award: { en: "ACM SIGSOFT Distinguished Paper Award", zh: "ACM SIGSOFT 杰出论文奖" }
             },
             {
                 venue: "ISSTA 2026",
                 title: "Gordian: Defusing Logic Bombs in Symbolic Execution with LLM-Generated Ghost Code",
+                project: "https://bouras.online/gordian/",
                 link: "https://arxiv.org/abs/2602.19128"
             },
             {
@@ -302,16 +544,19 @@
             {
                 venue: "LMPL Workshop",
                 title: "Authority Is Not a String: A Capability-Scoped Harness for Prompt-Injection-Resistant Coding Agents",
+                project: "https://bouras.online/capscope/",
                 status: { en: "Under submission", zh: "投稿中" }
             },
             {
                 venue: "SSBSE 2025",
                 title: "Optimised Fitness Functions for Automated Improvement of Software's Execution Time",
+                project: "https://bouras.online/fitness/",
                 link: "https://solar.cs.ucl.ac.uk/pdf/bouras_2025_ssbse.pdf"
             },
             {
                 venue: "GI @ ICSE 2025",
                 title: "LLM-Assisted Crossover in Genetic Improvement of Software",
+                project: "https://bouras.online/llmcrossover/",
                 link: "https://gpbib.cs.ucl.ac.uk/gi2025/bouras_2025_GI.pdf",
                 award: { en: "Best Presentation Award", zh: "最佳报告奖" }
             },
@@ -346,38 +591,45 @@
         const pick = (field, lang) => (field && typeof field === "object" && "en" in field) ? field[lang] : field;
 
         function renderLists(lang) {
-            document.getElementById("research-grid").innerHTML = researchInterests.map(r => `
-                <div class="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:border-brand transition">
-                    <div class="text-brand-dark text-xl mb-3"><i class="${esc(r.icon)}"></i></div>
-                    <h3 class="font-semibold text-gray-900 mb-1">${esc(pick(r.title, lang))}</h3>
-                    <p class="text-sm text-gray-600 leading-relaxed">${esc(pick(r.desc, lang))}</p>
-                </div>
+            document.getElementById("research-grid").innerHTML = researchInterests.map((r, index) => `
+                <article class="research-card">
+                    <span class="research-card-index">${String(index + 1).padStart(2, "0")}</span>
+                    <span class="research-card-icon" aria-hidden="true"><i class="${esc(r.icon)}"></i></span>
+                    <h3>${esc(pick(r.title, lang))}</h3>
+                    <p>${esc(pick(r.desc, lang))}</p>
+                </article>
             `).join("");
 
             document.getElementById("publications-list").innerHTML = publications.map(p => {
-                const title = p.link
-                    ? `<a href="${esc(p.link)}" target="_blank" rel="noopener" class="hover:text-brand-darker hover:underline">${esc(p.title)}</a>`
-                    : esc(p.title);
                 const award = p.award
-                    ? `<span class="inline-block mt-1 text-xs font-semibold text-brand-darker bg-brand-light rounded-full px-2.5 py-0.5"><i class="fas fa-award mr-1"></i>${esc(pick(p.award, lang))}</span>`
+                    ? `<span class="publication-badge"><i class="fas fa-award" aria-hidden="true"></i>${esc(pick(p.award, lang))}</span>`
                     : "";
                 const status = p.status
-                    ? `<span class="inline-block mt-1 text-xs font-semibold text-gray-600 bg-gray-100 rounded-full px-2.5 py-0.5">${esc(pick(p.status, lang))}</span>`
+                    ? `<span class="publication-badge status">${esc(pick(p.status, lang))}</span>`
                     : "";
+                const actions = [
+                    p.project
+                        ? `<a href="${esc(p.project)}" target="_blank" rel="noopener" class="publication-link"><span data-i18n="pub.project">${esc(pick(i18n["pub.project"], lang))}</span> <span aria-hidden="true">↗</span></a>`
+                        : "",
+                    p.link
+                        ? `<a href="${esc(p.link)}" target="_blank" rel="noopener" class="publication-link">${esc(pick(i18n["pub.paper"], lang))} <span aria-hidden="true">↗</span></a>`
+                        : ""
+                ].filter(Boolean).join("");
                 return `
-                    <li class="flex flex-col sm:flex-row gap-2 sm:gap-5">
-                        <span class="flex-shrink-0 sm:w-44 text-sm font-semibold text-brand-dark pt-0.5">${esc(p.venue)}</span>
+                    <li class="publication-row">
+                        <span class="publication-venue">${esc(p.venue)}</span>
                         <div>
-                            <p class="text-gray-900 font-medium leading-snug">${title}</p>
-                            <div class="flex flex-wrap gap-2">${award}${status}</div>
+                            <p class="publication-title">${esc(p.title)}</p>
+                            ${(award || status) ? `<div class="publication-meta">${award}${status}</div>` : ""}
+                            ${actions ? `<div class="publication-actions">${actions}</div>` : ""}
                         </div>
                     </li>`;
             }).join("");
 
             document.getElementById("honors-list").innerHTML = honors.map(h => `
-                <li class="flex gap-4">
-                    <span class="flex-shrink-0 w-14 text-sm font-bold text-brand-dark pt-0.5">${esc(h.year)}</span>
-                    <span class="text-gray-700">${esc(pick(h.text, lang))}</span>
+                <li class="honor-row">
+                    <span class="honor-year">${esc(h.year)}</span>
+                    <span class="honor-text">${esc(pick(h.text, lang))}</span>
                 </li>
             `).join("");
         }
@@ -407,6 +659,20 @@
         document.getElementById("lang-toggle").addEventListener("click", () => {
             setLang(document.documentElement.getAttribute("lang") === "zh" ? "en" : "zh");
         });
+
+        // ---- Mobile navigation ----
+        const navToggle = document.getElementById("nav-toggle");
+        const mobileNav = document.getElementById("mobile-nav");
+        const closeMobileNav = () => {
+            mobileNav.classList.add("hidden");
+            navToggle.setAttribute("aria-expanded", "false");
+        };
+        navToggle.addEventListener("click", () => {
+            const willOpen = mobileNav.classList.contains("hidden");
+            mobileNav.classList.toggle("hidden", !willOpen);
+            navToggle.setAttribute("aria-expanded", String(willOpen));
+        });
+        mobileNav.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMobileNav));
 
         // ---- WeChat QR popup ----
         const wechatModal = document.getElementById("wechat-modal");
