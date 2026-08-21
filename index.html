@@ -180,6 +180,8 @@
         .publication-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
         .publication-row { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 28px; padding: 25px 0 27px; border-bottom: 1px solid var(--line); }
         .publication-venue { color: var(--brand-deep); font: 700 .75rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+        .publication-venue-link { color: var(--brand-deep); text-decoration: none; }
+        .publication-venue-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         .publication-title { margin: 0; color: var(--ink); font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.52rem); font-weight: 500; letter-spacing: -.025em; line-height: 1.25; }
         .publication-title-link { color: inherit; text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent); text-decoration-thickness: 1px; text-underline-offset: 4px; }
         .publication-title-link:hover { color: var(--brand-deep); text-decoration-thickness: 2px; }
@@ -569,6 +571,7 @@
             },
             {
                 venue: "SAMOS XXIII",
+                venueLink: "https://samos-conference.com/",
                 title: "Reliable Basic Block Energy Accounting",
                 link: "https://dl.acm.org/doi/10.1007/978-3-031-46077-7_13"
             }
@@ -608,6 +611,9 @@
             `).join("");
 
             document.getElementById("publications-list").innerHTML = publications.map(p => {
+                const venue = p.venueLink
+                    ? `<a href="${esc(p.venueLink)}" target="_blank" rel="noopener" class="publication-venue-link">${esc(pick(p.venue, lang))}</a>`
+                    : esc(pick(p.venue, lang));
                 const title = p.link
                     ? `<a href="${esc(p.link)}" target="_blank" rel="noopener" class="publication-title-link">${esc(p.title)}</a>`
                     : esc(p.title);
@@ -627,7 +633,7 @@
                 ].filter(Boolean).join("");
                 return `
                     <li class="publication-row">
-                                <span class="publication-venue">${esc(pick(p.venue, lang))}</span>
+                                <span class="publication-venue">${venue}</span>
                             <div>
                                 <p class="publication-title">${title}</p>
                             ${(award || status) ? `<div class="publication-meta">${award}${status}</div>` : ""}

@@ -42,6 +42,17 @@ test("keeps paper-backed publication titles linked", () => {
   assert.match(html, /<p class="publication-title">\$\{title\}<\/p>/);
 });
 
+test("links the SAMOS XXIII venue to the conference website", () => {
+  assert.match(
+    html,
+    /venue: "SAMOS XXIII",\s+venueLink: "https:\/\/samos-conference\.com\/"/,
+  );
+  assert.match(
+    html,
+    /p\.venueLink\s*\?\s*`<a href="\$\{esc\(p\.venueLink\)\}" target="_blank" rel="noopener" class="publication-venue-link">\$\{esc\(pick\(p\.venue, lang\)\)\}<\/a>`/,
+  );
+});
+
 test("renders safe external project links", () => {
   assert.match(
     html,
@@ -74,5 +85,6 @@ test("describes the Huawei AI kernel optimisation work in both languages", () =>
 test("shows the accepted LMPL 2026 venue for CapScope", () => {
   assert.match(html, /venue: "LMPL 2026",\s+title: "Authority Is Not a String:[^"]+",\s+project: "https:\/\/bouras\.online\/capscope\/"/);
   assert.doesNotMatch(html, /venue: \{ en: "Under submission", zh: "投稿中" \}/);
-  assert.match(html, /publication-venue">\$\{esc\(pick\(p\.venue, lang\)\)\}/);
+  assert.match(html, /publication-venue">\$\{venue\}/);
+  assert.match(html, /: esc\(pick\(p\.venue, lang\)\);/);
 });
