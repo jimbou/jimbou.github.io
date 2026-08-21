@@ -24,6 +24,17 @@ test("associates Mnimi with statistical-independence-aware caching", () => {
   );
 });
 
+test("shows Gordian's invited KLEE Workshop presentation", () => {
+  assert.match(
+    html,
+    /title: "Gordian:[^"]+",[\s\S]*?invitedPresentation: \{[\s\S]*?en: "Invited presentation · KLEE Workshop @ ASE 2026"[\s\S]*?zh: "特邀报告 · KLEE Workshop @ ASE 2026"[\s\S]*?link: "https:\/\/conf\.researchr\.org\/home\/ase-2026\/klee-2026"/,
+  );
+  assert.match(
+    html,
+    /p\.invitedPresentation[\s\S]*?class="publication-badge invited-presentation"[\s\S]*?esc\(pick\(p\.invitedPresentation\.label, lang\)\)/,
+  );
+});
+
 test("keeps bilingual and publication rendering hooks", () => {
   assert.match(html, /id="lang-toggle"/);
   assert.match(html, /const publications = \[/);
