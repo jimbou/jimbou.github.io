@@ -94,7 +94,7 @@ test("describes the Huawei AI kernel optimisation work in both languages", () =>
 });
 
 test("shows the accepted LMPL 2026 venue for CapScope", () => {
-  assert.match(html, /venue: "LMPL 2026",\s+title: "Authority Is Not a String:[^"]+",\s+project: "https:\/\/bouras\.online\/capscope\/"/);
+  assert.match(html, /venue: "LMPL 2026",\s+title: "Authority Is Not a String:[^"]+",\s+project: "https:\/\/bouras\.online\/capscope\/",\s+link: "https:\/\/arxiv\.org\/abs\/2609\.08371"/);
   assert.doesNotMatch(html, /venue: \{ en: "Under submission", zh: "投稿中" \}/);
   assert.match(html, /publication-venue">\$\{venue\}/);
   assert.match(html, /: esc\(pick\(p\.venue, lang\)\);/);
