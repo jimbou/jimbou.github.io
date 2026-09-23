@@ -1,0 +1,166 @@
+\documentclass[11pt,a4paper,sans]{moderncv}        
+\moderncvstyle{classic}                            
+\moderncvcolor{black}                               
+\usepackage[utf8]{inputenc}                       
+\usepackage[scale=0.9]{geometry}
+\usepackage{etoolbox}
+
+% Adjust the width of the date column in cventry
+\patchcmd{\cventry}
+  {0.15\linewidth} % Original width of the date column
+  {0.5\linewidth} % New width; adjust this value as needed
+  {}{}
+
+% Adjust the width of the main entry column in cventry accordingly
+\patchcmd{\cventry}
+  {0.85\linewidth} % Original width of the main content column
+  {0.5\linewidth} % New width; adjust this value as needed
+  {}{}
+
+% Personal information
+\name{Dimitrios Stamatios}{Bouras}
+% \address{79 Palace Gates Road, N227BW}{Beijing, China}
+\address{Tiancun Road, Haidian District}{Beijing, China}
+\phone[mobile]{+86 13522945130}
+\email{dimitrios.stamatios.bouras@gmail.com}
+% \homepage{jimbou.github.io}
+
+\begin{document}
+\makecvtitle
+
+% Education
+\section{Education}
+\cventry{09/2025 -- Present}
+{PhD in Computer Science}
+{Peking University}
+{Beijing, China}
+{}
+{Programming Languages Laboratory (PL Lab). 
+\newline \textbf{Tentative PhD Thesis:} \emph{LLM-Based Program Analysis}.
+% \newline Research focus: Automated Software Engineering, Program Analysis, and Formal Verification, with emphasis on Large Language Models
+}
+
+
+\cventry{09/2023 -- 09/2024}{MSc Software Systems Engineering}{University College London}{London, United Kingdom}{}{Graduated with High First-Class Honours (Grade: 79.6\%) \newline Ranked \textbf{1st in Class of 2024}}
+
+\cventry{09/2017 -- 02/2023}{MEng, BSc in Electrical and Computer Engineering}{National Technical University of Athens}{Athens, Greece}{}{\textit{Grade: 8.69/10 (First Class Honours)\\} 5-year integrated master's degree; 300 ECTS. Selected Flows: Computer Systems, Computer Software, Management and Decision Support Systems.}
+\cventry{09/2014 -- 06/2017}{High School Diploma}{2nd General High School Kalyvion}{Athens, Greece}{}{\textit{    20.0/20.0, "Distinction", Top of 2017 Class}}
+
+% Professional Experience
+\section{Professional Experience}
+\cventry{Summer 2026}
+{AI Algorithm PhD Intern}
+{Huawei Research Labs -- AI Algorithm Lab}
+{Shanghai, China}
+{}{
+\begin{itemize}
+    \item Designed and built \textbf{K-LENS}, an LLM agent for \textbf{AscendC kernel optimization} using rerankable lessons from prior search, which is deployed across multiple Huawei LLM infrastructures internationally.
+\end{itemize}
+}
+\cventry{09/2024 -- 09/2025}{Research Associate}{PL Lab Peking University }{Beijing, China}{}{
+\begin{itemize}
+    \item Research Associate at the Programming Language Lab of Peking University
+    \item Affiliated Projects:
+    \begin{itemize}
+        \item LLM assisted Crossover for Genetic Improvement of Software
+        \item Structural Reasoning about Programs in Natural Language
+        \item Diffusing symbolic execution logic bombs with LLM generated ghost code
+        \item AI assisted Verification of Smart Contracts
+    \end{itemize}
+\end{itemize}
+}
+\cventry{03/2023 -- 09/2023}{DevOps Engineer}{IBM }{Athens, Greece}{}{
+\begin{itemize}
+    \item Engineer at the COSMOS project; implementation of a new core banking system for the National Bank of Greece.
+    \item Developed continuous integration, testing, and deployment pipelines.
+    \item Created a multipurpose release management web tool.
+    \item Provided production cloud support and monitoring solutions, ensuring high availability, optimal performance, and swift resolution of incidents
+    \item Managed cloud infrastructure using Terraform and Ansible
+\end{itemize}
+}
+\cventry{11/2022 -- 02/2023}{Teaching Assistant}{NTUA School of Electrical and Computer Engineering}{Athens, Greece}{}{
+\begin{itemize}
+    \item Provided assistance in the Microcomputers Laboratory course.
+    \item Examined and graded students on semester exercises and final exams.
+\end{itemize}
+}
+\cventry{10/2021 -- 02/2023}{Research Assistant}{Microprocessors and Digital Systems Lab, NTUA, Athens, Greece}{}{}{
+\begin{itemize}
+    \item Assisted in energy efficiency, binary code lifting and heterogeneous computing research.
+    \item Deployed and maintained cloud infrastructure for the research performed.
+\end{itemize}
+}
+\cventry{07/2021 -- 09/2021}{DevOps Integration Specialist Intern}{IBM}{Athens, Greece}{}{
+\begin{itemize}
+    \item Maintained and created CI/CD pipelines
+    \item Provided cloud automation solutions
+\end{itemize}
+}
+% Honors & Awards
+\section{Honors \& Awards}
+
+\cvitem{2026}{\textbf{ACM SIGSOFT Distinguished Paper Award}, 
+ICSE 2026}
+\cvitem{2026}{
+\textbf{Outstanding Research Award}, School of Computer Science, Peking University.
+}
+\cvitem{2025}{\textbf{National Natural Science Foundation of China (NSFC)} -- Research Fund for Excellent International PhD Students. 
+ Principal Investigator of a nationally competitive grant for my work on verification-aware large language models, symbolic execution, and smart contract verification.
+}
+
+\cvitem{2025}{\textbf{International Computer Science Excellent PhD Student Scholarship}, Peking University}
+\cvitem{2025}{\textbf{Chinese Government Scholarship}, for Phd studies at Peking University}
+\cvitem{2024}{\textbf{Top} of the 2024 UCL Software Systems Engineering Masters Class}
+\cvitem{2023}{\textbf{\textit{Proud of Youth} Scholarship by Helleniq Energy}, to promising youth, for Postgraduate Studies}
+\cvitem{2023}{\textbf{Eugenides Foundation Scholarship} due to academic excellence, for Postgraduate Studies}
+\cvitem{2017}{\textbf{National Chemistry Olympiad}, among top performers nationwide; selected as reserve for the Global Chemistry Olympiad.}
+\cvitem{2016}{\textbf{European Youth Parliament of Greece}, among top participants nationwide; selected as reserve for the 87th International Session.}
+
+% Skills
+\section{Skills}
+\cvitem{Languages}{Python, C, C++, Java, Groovy, TypeScript, JavaScript, Go, SQL, Assembly (x86, RISC-V), Standard ML, Prolog, Matlab, Verilog, UML, VHDL.}
+
+\cvitem{Tools}{Jenkins, OpenShift, KLEE (symbolic execution), SymCC (concolic execution),  Large Language Models for automated software engineering, Agent development. Docker, Kubernetes, Azure DevOps, AWS DevOps, Maven, Terraform, Ansible, Infrastructure as Code (IaC), Prometheus, ELK, Android Studio, LLVM, Xilinx Vivado, Machine Learning (PyTorch, TensorFlow, Keras)}
+
+
+% Publications
+\section{Publications}
+\cvitem{ICSE 2026}{\textit{HoarePrompt}: Structural Reasoning About Program Correctness in
+  Natural Language (\textbf{Distinguished Paper Award}) }
+\cvitem{ISSTA 2026}{\textit{Gordian}: Defusing Logic Bombs in Symbolic Execution with LLM-Generated Ghost Code}
+\cvitem{LLM4Code @ ICSE 2026}{\textit{Statistical Independence Aware Caching for LLM Workflows}.}
+
+\cvitem{SSBSE 2025}{\textit{Optimised fitness functions for automated improvement of
+  software's execution time}}
+\cvitem{GI@ICSE 2025}{\textit{LLM-Assisted Crossover in Genetic Improvement of Software} -  "Best Presentation" Award}
+\cvitem{SAMOS XXIII}{\textit{"Reliable Basic Block Energy Accounting"}}
+% Dissertation Thesis
+% \section{Dissertation Thesis}
+% \cvitem{NTUA}{Production of a reliable C code energy dataset at the Basic Block level, using LLVM, intel-rapl, and intel-perf.}
+% \cvitem{UCL}{Novel software performance metrics for software optimization using Genetic Improvement techniques.}
+
+% Notable Projects
+\section{Notable Projects}
+\cvlistitem{\textbf{K-LENS}: LLM agent for AscendC kernel optimization using rerankable lessons.}
+\cvlistitem{Diffusing\textbf{ Logic Bombs} in Symbolic Execution with LLM \textbf{ghost code} (under review @ \textbf{ISSTA})}
+
+\cvlistitem{\textbf{HoarePrompt :} Structural Reasoning About Programs in Natural Language}
+\cvlistitem{ \textbf{Expansion of the MAGPIE G.I framework}, with new fitness functions and LLM-assisted crossover}
+\cvlistitem{\textbf{Microservices based LLVM Verification tool} for C function autocompletions using symbolic execution and static analysis}
+\cvlistitem{\textbf{Parameter Optimization and Rightsizng Models} for the\textbf{ Green Software Foundation} Project Impact Engine Framework (Team Leader), in collaboration with \textbf{NTT Data}}
+\cvlistitem{\textbf{Custom OS implementation} from scratch for Armv8-A , implemented on Rasberry Pi 3}
+\cvlistitem{\textbf{Distributed Neural Network Training Pipeline}, using Tensorflow }
+% \cvlistitem{\textbf{Beta prototype of smart phone app}, processing user data to calculate danger level of public spaces for COVID-19 transmission}
+\cvlistitem{\textbf{Electric car charging Station system}, user interface, cli and backend development }
+% \cvlistitem{\textbf{Home Security system} with password protection , using EasyAVR6 board}
+\cvlistitem{\textbf{Parametrized Debayering Filter} design for ZYNQ SoC FPGA, using Xilinx Vivado - ISE }
+% Languages
+\section{Languages}
+
+\cvitem{}{
+English (C2, Fluent)\quad
+French (B2, Intermediate)\quad
+Chinese (A1, Beginner)\quad
+Greek (Native)
+}
+\end{document}

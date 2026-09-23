@@ -1,0 +1,296 @@
+\documentclass[11pt,a4paper,sans]{moderncv}
+\moderncvstyle{classic}
+\moderncvcolor{black}
+
+\usepackage{etoolbox}
+\usepackage{xeCJK}
+\setCJKmainfont{Noto Serif CJK SC}
+\usepackage[scale=0.9]{geometry}
+
+% Adjust the width of the date column in cventry
+\patchcmd{\cventry}
+  {0.15\linewidth}
+  {0.5\linewidth}
+  {}{}
+
+% Adjust the width of the main entry column in cventry accordingly
+\patchcmd{\cventry}
+  {0.85\linewidth}
+  {0.5\linewidth}
+  {}{}
+
+% Personal information
+\email{bouras25@stu.pku.edu.cn}
+\name{Dimitrios Stamatios}{Bouras}
+\address{北京市海淀区田村}{中国}
+\phone[mobile]{+86 13522945130}
+
+\begin{document}
+\makecvtitle
+
+% 教育背景
+\section{教育背景}
+
+\cventry{09/2025 -- \newline 至今}
+{计算机科学博士}
+{北京大学}
+{北京，中国}
+{}
+{
+北京大学程序设计语言实验室（Programming Languages Laboratory）。
+\newline 当前平均绩点（GPA）：4.0/4.0。
+\newline \textbf{博士研究方向：} 基于大型语言模型（LLM）的程序分析、形式化验证与符号执行。
+}
+
+\cventry{09/2023 -- 09/2024}
+{软件系统工程理学硕士}
+{伦敦大学学院（University College London -- UCL）}
+{伦敦，英国}
+{}
+{
+2024 届专业排名第一，以最高等级荣誉毕业（High Distinction, 79.6/100）。
+}
+
+\cventry{09/2017 -- 02/2023}
+{电气与计算机工程硕士/学士}
+{国立雅典理工大学（National Technical University of Athens -- NTUA）}
+{雅典，希腊}
+{}
+{
+平均成绩 8.69/10（优秀）。
+\newline 五年制一体化硕士学位，300 ECTS 学分。
+\newline 专业方向：计算机系统、计算机软件、管理与决策支持系统。
+}
+
+% 工作经历
+\section{工作经历}
+
+\cventry{06/2026 -- 09/2026}
+{AI 算法博士实习生（AI Algorithm PhD Intern）}
+{华为研究院 -- AI Algorithm Lab}
+{上海，中国}
+{}
+{
+\begin{itemize}
+    \item 设计并开发 \textbf{K-LENS}，一个面向 \textbf{AscendC Kernel 自动优化}的 LLM Agent，通过对历史搜索中积累的优化经验进行可重排序复用来指导后续优化；系统已部署于华为多个国家和地区的 LLM 基础设施中。
+\end{itemize}
+}
+
+\cventry{09/2024 -- 09/2025}
+{助理研究员（Research Associate）}
+{北京大学程序设计语言实验室（PL Lab）}
+{北京，中国}
+{}
+{
+\begin{itemize}
+\item 担任北京大学程序设计语言实验室研究助理
+\item 参与项目：
+\begin{itemize}
+\item 基于 LLM 的遗传改进软件交叉算子研究
+\item 自然语言下的程序结构化正确性推理
+\item 利用 LLM 生成 ghost code 缓解符号执行逻辑炸弹
+\item 智能合约的 AI 辅助验证
+\end{itemize}
+\end{itemize}
+}
+
+\cventry{03/2023 -- 09/2023}
+{开发运维工程师（DevOps Engineer）}
+{IBM}
+{雅典，希腊}
+{}
+{
+\begin{itemize}
+\item 参与 COSMOS 项目（希腊国家银行核心银行系统实施）
+\item 设计与开发 CI/CD 流水线
+\item 开发多功能发布管理工具
+\item 提供生产环境云支持与监控解决方案
+\item 使用 Terraform 与 Ansible 管理云基础设施
+\end{itemize}
+}
+
+\cventry{11/2022 -- 02/2023}
+{教学助理（Teaching Assistant）}
+{国立雅典理工大学电子与计算机工程学院（NTUA）}
+{雅典，希腊}
+{}
+{
+\begin{itemize}
+\item 协助微型计算机实验课程教学
+\item 批改作业与期末考试
+\end{itemize}
+}
+
+\cventry{10/2021 -- 02/2023}
+{研究助理（Research Assistant）}
+{国立雅典理工大学微处理器和数字系统实验室（NTUA）}
+{雅典，希腊}
+{}
+{
+\begin{itemize}
+\item 参与能效优化、二进制代码提升与异构计算研究
+\item 部署并维护研究所需云基础设施
+\end{itemize}
+}
+
+\cventry{07/2021 -- 09/2021}
+{开发运维集成专向实习生（DevOps Integration Specialist Intern）}
+{IBM}
+{雅典，希腊}
+{}
+{
+\begin{itemize}
+\item 维护与创建 CI/CD 流水线
+\item 提供云自动化解决方案
+\end{itemize}
+}
+
+% 荣誉与奖励
+\section{荣誉与奖励}
+
+\cvitem{2026}{\textbf{ACM SIGSOFT Distinguished Paper Award}, ICSE 2026}
+
+\cvitem{2026}{\textbf{北京大学计算机学院优秀科研奖（Outstanding Research Award）}}
+
+\cvitem{2026}{
+\textbf{国家自然科学基金委员会（NSFC）“外籍优秀学生来华读博支持专项（试点）项目”}
+\newline
+项目负责人。研究方向：验证增强型大型语言模型、符号执行与智能合约验证。
+}
+
+\cvitem{2025}{\textbf{北京大学 International Computer Science Excellent PhD Student Scholarship}}
+
+\cvitem{2025}{\textbf{中国政府奖学金（Chinese Government Scholarship, CSC）}}
+
+\cvitem{2023}{
+希腊能源集团（Helleniq Energy）青年领袖奖学金：全希腊精英人才资助计划。
+由东南欧大型能源集团颁发，获学业资助约15万人民币。
+}
+
+\cvitem{2023}{
+希腊尤金尼德基金会（Eugenides Foundation）学术优秀奖学金：
+希腊权威理工学术奖学金。专项资助约10万人民币；仅授予赴全球顶尖高校深造的优秀理工科学生。
+}
+
+\cvitem{2017}{
+希腊全国化学奥林匹克竞赛全国优秀选手，入选国际化学奥林匹克竞赛候补名单
+}
+
+\cvitem{2016}{
+欧洲青年议会希腊代表选拔中表现优异，入选第87届国际会议候补名单
+}
+
+% 技能
+\section{技能}
+
+\cvitem{编程语言}{
+Python, C, C++, Java, Groovy, TypeScript, JavaScript, Go, SQL,
+Assembly (x86, RISC-V), Standard ML, Prolog, Matlab, Verilog, VHDL
+}
+
+\cvitem{工具与技术}{
+KLEE（符号执行）, SymCC（混合执行）, LLVM,
+Docker, Kubernetes, Jenkins, Terraform, Ansible,
+Azure DevOps, AWS DevOps,
+大型语言模型（LLM）自动化软件工程与 Agent 开发,
+PyTorch, TensorFlow
+}
+
+% 论文发表
+\section{学术论文}
+
+\cvitem{ISSTA 2026}{
+\textit{Gordian}: Defusing Logic Bombs in Symbolic Execution with LLM-Generated Ghost Code
+}
+
+\cvitem{ICSE 2026}{
+\textit{HoarePrompt}: Structural Reasoning About Program Correctness in Natural Language
+（第一作者，Distinguished Paper Award）
+}
+
+\cvitem{LLM4Code @ ICSE 2026}{
+\textit{Statistical Independence Aware Caching for LLM Workflows}
+}
+
+\cvitem{SSBSE 2025}{
+\textit{Optimised Fitness Functions for Automated Improvement of Software's Execution Time}
+}
+
+\cvitem{GI@ICSE 2025}{
+\textit{LLM-Assisted Crossover in Genetic Improvement of Software}
+（Best Presentation Award）
+}
+
+\cvitem{SAMOS XXIII}{
+\textit{Reliable Basic Block Energy Accounting}
+}
+
+% % 学位论文
+% \section{学位论文}
+
+% \cvitem{NTUA}{
+% “基于 LLVM、intel-rapl 与 intel-perf 构建基础块级别的可靠 C 语言能耗数据集”
+% \newline
+% （\textit{Production of a Reliable C Code Energy Dataset at the Basic Block Level Using LLVM, intel-rapl, and intel-perf}）
+% }
+
+% \cvitem{UCL}{
+% “基于遗传改进的软件性能优化新指标研究”
+% \newline
+% （\textit{Novel Software Performance Metrics for Software Optimization Using Genetic Improvement Techniques}）
+% }
+
+% 项目
+\section{代表性项目}
+
+\cvlistitem{
+\textbf{K-LENS}：基于可重排序历史经验的 AscendC Kernel 自动优化 LLM Agent，已部署于华为多个国家和地区的 LLM 基础设施中。
+}
+
+\cvlistitem{
+\textbf{Gordian}：利用 LLM 生成 ghost code 缓解符号执行中的逻辑炸弹（已录用至 \textbf{ISSTA 2026，CCF A}）
+}
+
+\cvlistitem{
+\textbf{HoarePrompt}：自然语言程序结构化推理框架
+}
+
+\cvlistitem{
+扩展 MAGPIE 遗传改进框架，引入新型适应度函数与 LLM 辅助交叉
+}
+
+\cvlistitem{
+基于 LLVM 的 C 函数自动补全验证工具（结合符号执行与静态分析）
+}
+
+\cvlistitem{
+Green Software Foundation 项目参数优化与模型缩减（团队负责人，与 NTT Data 合作）
+}
+
+\cvlistitem{
+基于 Armv8-A 的自研操作系统（Raspberry Pi 3）
+}
+
+\cvlistitem{
+分布式神经网络训练流水线（TensorFlow）
+}
+
+\cvlistitem{
+电动汽车充电站系统（前端、CLI 与后端开发）
+}
+
+\cvlistitem{
+ZYNQ SoC FPGA 参数化去马赛克滤波器设计（Xilinx Vivado）
+}
+
+% 语言
+\section{语言能力}
+
+\cvitem{}{
+英语（C2，流利）\quad
+法语（B2，中级）\quad
+中文（A1，初级）\quad
+希腊语（母语）
+}
+
+\end{document}
