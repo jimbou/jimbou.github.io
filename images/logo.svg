@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>Dimitrios Bouras</title>
+  <rect width="512" height="512" rx="112" fill="#1f2b2f"/>
+  <g fill="none" stroke="#e0904a" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M124 116 Q88 116 88 152 L88 218 Q88 252 58 256 Q88 260 88 294 L88 360 Q88 396 124 396"/>
+    <path d="M388 116 Q424 116 424 152 L424 218 Q424 252 454 256 Q424 260 424 294 L424 360 Q424 396 388 396"/>
+  </g>
+  <g fill="none" stroke="#f8f6f1" stroke-width="30" stroke-linejoin="round">
+    <path d="M144 172 H170 A62 84 0 0 1 170 340 H144 Z"/>
+    <path d="M278 172 H316 A40 42 0 0 1 316 256 H278 Z M278 256 H322 A46 42 0 0 1 322 340 H278 Z"/>
+  </g>
+</svg>

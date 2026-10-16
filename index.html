@@ -3,38 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dimitris Bouras</title>
+    <title>Dimitrios Bouras</title>
     <meta name="description" content="Dimitrios Stamatios Bouras — PhD researcher in Computer Science at Peking University (PL Lab). Research on LLM-based program analysis, coding agents, symbolic execution and software verification.">
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="manifest" href="images/site.webmanifest">
-    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#1f2b2f">
+    <link rel="shortcut icon" href="images/favicon.ico">
     <meta name="theme-color" content="#f8f6f1">
 
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            light: '#cddde2',
-                            DEFAULT: '#A1BDC7',
-                            dark: '#6f95a1',
-                            darker: '#4f717c'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         :root {
             color-scheme: light;
@@ -50,6 +35,7 @@
             --brand-wash: #e5eef0;
             --amber: #a86124;
             --amber-wash: #f7eadc;
+            --night: #1f2b2f;
             --serif: "Newsreader", Iowan Old Style, Georgia, serif;
             --sans: "Source Sans 3", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             --ui-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -57,12 +43,16 @@
             --shell: 1120px;
             --radius: 16px;
             --shadow: 0 24px 60px rgba(38, 51, 55, 0.09);
+            --ease-out: cubic-bezier(.2, .75, .2, 1);
         }
 
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; scroll-padding-top: 82px; }
         body {
             margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             color: var(--ink);
             background: var(--paper);
             font-family: var(--sans);
@@ -71,30 +61,46 @@
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
         }
+        main { flex: 1 0 auto; }
+        img { max-width: 100%; }
+        strong { color: var(--ink); font-weight: 600; }
         a, button { -webkit-tap-highlight-color: transparent; }
         a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline-offset: 4px; }
         h1, h2 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.045em; }
+        h3 { font-weight: 600; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
         .site-shell { width: min(calc(100% - 48px), var(--shell)); margin-inline: auto; }
         .section-anchor { scroll-margin-top: 5rem; }
         [data-lang] { display: none; }
         html[lang="en"] [data-lang="en"],
         html[lang="zh"] [data-lang="zh"] { display: inline; }
 
+        /* ---------- Scroll reveal ---------- */
+        .reveal { opacity: 0; transform: translateY(26px); transition: opacity .75s var(--ease-out), transform .75s var(--ease-out); transition-delay: var(--d, 0ms); }
+        .reveal.is-visible { opacity: 1; transform: none; }
+
+        /* ---------- Header ---------- */
         .site-header {
             position: sticky;
             top: 0;
             z-index: 30;
             font-family: var(--ui-sans);
             border-bottom: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
-            background: color-mix(in srgb, var(--paper) 90%, transparent);
+            background: color-mix(in srgb, var(--paper) 86%, transparent);
             backdrop-filter: blur(16px) saturate(1.2);
         }
+        .scroll-progress { position: absolute; left: 0; bottom: -1px; height: 2px; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--progress, 0)); background: linear-gradient(90deg, var(--brand), var(--amber)); }
         .nav-shell { min-height: 68px; display: flex; align-items: center; gap: 28px; }
         .wordmark { display: inline-flex; align-items: baseline; gap: 2px; color: var(--ink); font-family: var(--ui-sans); font-size: 1.125rem; font-weight: 700; letter-spacing: -0.025em; text-decoration: none; }
-        .wordmark-dot { color: var(--amber); }
-        .desktop-nav { display: flex; align-items: center; gap: clamp(18px, 2.4vw, 30px); margin-left: auto; }
-        .desktop-nav a, .mobile-nav a { color: var(--ink-soft); font-size: .88rem; font-weight: 600; text-decoration: none; }
-        .desktop-nav a:hover, .mobile-nav a:hover { color: var(--brand-deep); }
+        .wordmark-mark { align-self: center; width: 30px; height: 30px; margin-right: 8px; border-radius: 8px; transition: transform 300ms var(--ease-out); }
+        .wordmark:hover .wordmark-mark { transform: rotate(-6deg) scale(1.06); }
+        .wordmark-dot { color: var(--amber); display: inline-block; animation: dot-pulse 2.8s ease-in-out infinite; }
+        @keyframes dot-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.6); } }
+        .desktop-nav { display: flex; align-items: center; gap: clamp(14px, 2vw, 26px); margin-left: auto; }
+        .desktop-nav a, .mobile-nav a { position: relative; color: var(--ink-soft); font-size: .86rem; font-weight: 600; text-decoration: none; transition: color 160ms ease; }
+        .desktop-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; border-radius: 2px; background: var(--amber); transform: scaleX(0); transition: transform 260ms var(--ease-out); }
+        .desktop-nav a:hover, .mobile-nav a:hover, .desktop-nav a.is-active, .mobile-nav a.is-active { color: var(--brand-deep); }
+        .desktop-nav a:hover::after, .desktop-nav a.is-active::after { transform: scaleX(1); }
         .nav-actions { display: flex; align-items: center; gap: 9px; }
         .nav-control, .nav-cv, .nav-toggle {
             min-height: 37px;
@@ -104,29 +110,38 @@
             color: var(--ink-soft);
             font: 700 .8rem/1 var(--sans);
         }
-        .nav-control, .nav-toggle { padding: 0 13px; cursor: pointer; }
+        .nav-control, .nav-toggle { padding: 0 13px; cursor: pointer; white-space: nowrap; }
         .nav-cv { display: inline-flex; align-items: center; padding: 0 15px; color: #fff; border-color: var(--brand-deep); background: var(--brand-deep); text-decoration: none; }
         .nav-control:hover, .nav-toggle:hover { color: var(--brand-deep); border-color: var(--brand); }
         .nav-cv:hover { background: #284d57; }
         .nav-toggle { display: none; width: 39px; padding: 0; }
         .mobile-nav { border-top: 1px solid var(--line); background: var(--surface); }
-        .mobile-nav-inner { width: min(calc(100% - 48px), var(--shell)); margin: 0 auto; padding: 12px 0 17px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .mobile-nav-inner { width: min(calc(100% - 48px), var(--shell)); margin: 0 auto; padding: 12px 0 17px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .mobile-nav a { padding: 5px 0; text-align: center; }
 
-        .hero { position: relative; overflow: hidden; padding: clamp(64px, 8vw, 108px) 0 clamp(70px, 9vw, 118px); }
+        /* ---------- Hero ---------- */
+        .hero { position: relative; isolation: isolate; overflow: hidden; padding: clamp(60px, 8vw, 104px) 0 clamp(64px, 8vw, 104px); }
         .hero::before {
             position: absolute;
             inset: 0;
-            z-index: -1;
+            z-index: -2;
             content: "";
             background:
                 radial-gradient(50% 70% at 88% 0%, color-mix(in srgb, var(--brand-wash) 86%, transparent), transparent 72%),
                 radial-gradient(35% 55% at 3% 100%, color-mix(in srgb, var(--amber-wash) 58%, transparent), transparent 74%);
         }
-        .hero-grid { display: grid; grid-template-columns: 315px minmax(0, 1fr); align-items: center; gap: clamp(52px, 8vw, 104px); }
+        #hero-canvas { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; opacity: .9; mask-image: linear-gradient(to bottom, #000 70%, transparent); -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); }
+        .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 330px; align-items: center; gap: clamp(48px, 7vw, 96px); }
+        .hero-visual { position: relative; perspective: 900px; }
+        .portrait-tilt { position: relative; transition: transform 400ms var(--ease-out); transform-style: preserve-3d; }
         .portrait-wrap { position: relative; margin: 0; border-radius: 50%; }
         .portrait-wrap::before, .portrait-wrap::after { content: none; }
-        .portrait-wrap img { display: block; width: 100%; aspect-ratio: 1; border: 8px solid var(--surface); border-radius: 50%; object-fit: cover; box-shadow: 0 22px 52px rgba(38, 51, 55, .17); }
+        .portrait-wrap img { position: relative; z-index: 1; display: block; width: 100%; aspect-ratio: 1; border: 8px solid var(--surface); border-radius: 50%; object-fit: cover; box-shadow: 0 22px 52px rgba(38, 51, 55, .17); }
+        .portrait-orbit { position: absolute; inset: -18px; z-index: 0; border-radius: 50%; border: 1.5px dashed color-mix(in srgb, var(--brand) 55%, transparent); animation: spin 38s linear infinite; }
+        .portrait-orbit::after { content: ""; position: absolute; top: 50%; left: -6px; width: 11px; height: 11px; margin-top: -5.5px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 0 5px color-mix(in srgb, var(--amber) 18%, transparent); }
+        .portrait-glow { position: absolute; inset: 8%; z-index: -1; border-radius: 50%; background: conic-gradient(from 0deg, var(--brand-wash), var(--amber-wash), var(--brand-wash)); filter: blur(34px); animation: spin 18s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         .eyebrow, .section-kicker {
             margin: 0 0 14px;
             color: var(--brand-deep);
@@ -134,10 +149,14 @@
             letter-spacing: .14em;
             text-transform: uppercase;
         }
-        .hero-copy h1 { margin: 0 0 10px; font-family: var(--ui-sans); font-size: clamp(3.3rem, 6.2vw, 5.6rem); font-weight: 700; letter-spacing: -.055em; line-height: .93; }
-        .hero-subtitle { margin: 0 0 25px; color: var(--brand-deep); font-size: 1.06rem; font-weight: 700; }
-        .hero-body { max-width: 670px; margin: 0 0 16px; color: var(--ink-soft); line-height: 1.66; }
-        .hero-status { max-width: 670px; margin: 22px 0 28px; padding: 14px 17px; color: var(--ink-soft); border-left: 3px solid var(--amber); background: color-mix(in srgb, var(--amber-wash) 60%, transparent); font-size: .94rem; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 9px; }
+        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #3f9a6b; box-shadow: 0 0 0 0 rgba(63, 154, 107, .5); animation: live 2.2s ease-out infinite; }
+        @keyframes live { 0% { box-shadow: 0 0 0 0 rgba(63, 154, 107, .45); } 80%, 100% { box-shadow: 0 0 0 9px rgba(63, 154, 107, 0); } }
+        .hero-copy h1 { margin: 0 0 10px; font-family: var(--ui-sans); font-size: clamp(3rem, 5.4vw, 5rem); font-weight: 700; letter-spacing: -.055em; line-height: .93; }
+        .name-gradient { background: linear-gradient(100deg, var(--ink) 30%, var(--brand-deep) 60%, var(--amber) 85%, var(--ink) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: shimmer 9s ease-in-out infinite alternate; }
+        @keyframes shimmer { from { background-position: 0% 0; } to { background-position: 100% 0; } }
+        .hero-subtitle { margin: 0 0 18px; color: var(--brand-deep); font-size: 1.06rem; font-weight: 700; }
+        .hero-body { max-width: 640px; margin: 0 0 28px; color: var(--ink-soft); line-height: 1.66; }
         .hero-actions { display: flex; flex-wrap: wrap; gap: 9px; }
         .action {
             display: inline-flex;
@@ -152,13 +171,19 @@
             font-size: .87rem;
             font-weight: 700;
             text-decoration: none;
-            transition: transform 150ms ease, border-color 150ms ease, color 150ms ease;
+            transition: transform 180ms var(--ease-out), border-color 150ms ease, color 150ms ease, box-shadow 180ms ease;
         }
-        button.action { cursor: pointer; }
-        .action:hover { color: var(--brand-deep); border-color: var(--brand); transform: translateY(-1px); }
+        button.action { cursor: pointer; font-family: inherit; }
+        .action:hover { color: var(--brand-deep); border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 8px 18px rgba(38, 51, 55, .08); }
         .action-primary { color: #fff; border-color: var(--brand-deep); background: var(--brand-deep); }
         .action-primary:hover { color: #fff; background: #284d57; }
+        .wechat-icon { color: #07C160; }
+        .scroll-cue { position: absolute; left: 50%; bottom: 22px; width: 24px; height: 38px; margin-left: -12px; border: 2px solid color-mix(in srgb, var(--ink-soft) 45%, transparent); border-radius: 14px; }
+        .scroll-cue::after { content: ""; position: absolute; top: 7px; left: 50%; width: 4px; height: 8px; margin-left: -2px; border-radius: 2px; background: var(--amber); animation: cue 1.8s ease-in-out infinite; }
+        @keyframes cue { 0% { opacity: 0; transform: translateY(0); } 30% { opacity: 1; } 100% { opacity: 0; transform: translateY(12px); } }
 
+
+        /* ---------- Sections ---------- */
         .site-section { padding: clamp(70px, 9vw, 108px) 0; border-top: 1px solid var(--line); }
         .section-tint { background: color-mix(in srgb, var(--surface) 58%, var(--paper)); }
         .narrow-shell { max-width: 850px; }
@@ -166,25 +191,78 @@
         .section-heading h2 { margin: 0; font-size: clamp(2.35rem, 4.5vw, 3.55rem); line-height: 1.02; }
         .section-heading > a { flex: 0 0 auto; color: var(--brand-deep); font-size: .86rem; font-weight: 700; text-decoration: none; }
         .section-heading > a:hover { text-decoration: underline; text-underline-offset: 4px; }
-        .about-copy { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 70px); color: var(--ink-soft); }
+
+        .about-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: clamp(30px, 6vw, 72px); align-items: start; }
+        .about-copy { display: grid; gap: 18px; color: var(--ink-soft); }
         .about-copy p { margin: 0; }
+        .lang-card { padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+        .lang-card h3 { margin: 0 0 16px; color: var(--brand-deep); font: 700 .72rem/1.2 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+        .lang-row + .lang-row { margin-top: 14px; }
+        .lang-head { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; font-weight: 600; }
+        .lang-level { color: var(--muted); font: 500 .74rem/1.9 var(--mono); }
+        .lang-bar { height: 6px; margin-top: 6px; overflow: hidden; border-radius: 99px; background: var(--paper-deep); }
+        .lang-bar span { display: block; height: 100%; width: var(--w); border-radius: inherit; background: linear-gradient(90deg, var(--brand), var(--brand-deep)); transform-origin: 0 50%; transform: scaleX(0); transition: transform 1.2s var(--ease-out); transition-delay: var(--d, 0ms); }
+        .is-visible .lang-bar span { transform: scaleX(1); }
+
+        /* Spotlight cards (research + projects) */
+        .spot { --mx: 50%; --my: 50%; position: relative; overflow: hidden; isolation: isolate; }
+        .spot::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity 260ms ease; background: radial-gradient(380px circle at var(--mx) var(--my), color-mix(in srgb, var(--brand-wash) 95%, transparent), transparent 60%); }
+        .spot:hover::before { opacity: 1; }
 
         .research-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-        .research-card { position: relative; min-height: 215px; padding: 26px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease; }
-        .research-card:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 14px 35px rgba(38, 51, 55, .07); }
+        .research-card { min-height: 215px; padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color 160ms ease, transform 260ms var(--ease-out), box-shadow 260ms ease; }
+        .research-card:hover { border-color: var(--brand); transform: translateY(-4px); box-shadow: 0 18px 40px rgba(38, 51, 55, .09); }
         .research-card-index { display: block; margin-bottom: 42px; color: var(--amber); font: 500 .7rem/1 var(--mono); }
-        .research-card-icon { position: absolute; top: 24px; right: 25px; color: var(--brand); font-size: 1.05rem; }
-        .research-card h3 { margin: 0 0 8px; font-size: 1.12rem; }
-        .research-card p { margin: 0; color: var(--ink-soft); font-size: .91rem; line-height: 1.5; }
+        .research-card-icon { position: absolute; top: 20px; right: 20px; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: var(--brand-wash); color: var(--brand-deep); font-size: 1rem; transition: transform 360ms var(--ease-out), background 200ms ease, color 200ms ease; }
+        .research-card:hover .research-card-icon { transform: rotate(-8deg) scale(1.1); background: var(--brand-deep); color: #fff; }
+        .research-card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+        .research-card p { margin: 0; color: var(--ink-soft); font-size: .92rem; line-height: 1.5; }
 
+        /* ---------- Journey timeline ---------- */
+        .journey-filters { position: relative; display: inline-flex; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+        .journey-filters button { position: relative; z-index: 1; min-height: 34px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-soft); cursor: pointer; font: 700 .82rem/1 var(--sans); transition: color 200ms ease; }
+        .journey-filters button[aria-pressed="true"] { color: #fff; }
+        .filter-pill { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 999px; background: var(--brand-deep); transition: transform 380ms var(--ease-out), width 380ms var(--ease-out); }
+        .timeline { position: relative; margin: 0; padding: 0; list-style: none; }
+        .timeline-rail { position: absolute; top: 8px; bottom: 8px; left: 151px; width: 2px; border-radius: 2px; background: var(--line); }
+        .timeline-rail span { position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(var(--amber), var(--brand)); transform-origin: 50% 0; transform: scaleY(var(--fill, 0)); }
+        .t-item { position: relative; display: grid; grid-template-columns: 128px 48px minmax(0, 1fr); padding: 0 0 22px; }
+        .t-item[hidden] { display: none; }
+        .t-date { padding-top: 21px; color: var(--muted); font: 500 .76rem/1.5 var(--mono); text-align: right; }
+        .t-date b { display: block; color: var(--ink); font-weight: 500; }
+        .t-node { position: relative; display: flex; justify-content: center; padding-top: 18px; }
+        .t-node span { display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid var(--brand); border-radius: 50%; background: var(--surface); color: var(--brand-deep); font-size: .72rem; box-shadow: 0 0 0 5px var(--paper); transition: transform 300ms var(--ease-out), background 200ms ease, color 200ms ease; }
+        .t-item.work .t-node span { border-color: var(--amber); color: var(--amber); }
+        .t-item:hover .t-node span { transform: scale(1.18); background: var(--brand-deep); color: #fff; }
+        .t-item.work:hover .t-node span { background: var(--amber); }
+        .t-card { padding: 20px 22px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color 160ms ease, transform 260ms var(--ease-out), box-shadow 260ms ease; }
+        .t-item:hover .t-card { border-color: var(--brand); transform: translateX(4px); box-shadow: 0 16px 36px rgba(38, 51, 55, .08); }
+        .t-item.work:hover .t-card { border-color: color-mix(in srgb, var(--amber) 60%, var(--line)); }
+        .t-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; }
+        .t-role { margin: 0; font-size: 1.14rem; line-height: 1.3; }
+        .t-type { color: var(--brand-deep); font: 700 .66rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+        .t-item.work .t-type { color: var(--amber); }
+        .t-org { margin: 3px 0 0; color: var(--ink-soft); font-size: .93rem; font-weight: 600; }
+        .t-org span { color: var(--muted); font-weight: 400; }
+        .t-highlight { display: inline-flex; align-items: center; gap: 7px; margin-top: 12px; padding: 5px 11px; border-radius: 8px; background: var(--brand-wash); color: var(--brand-deep); font-size: .8rem; font-weight: 700; }
+        .t-item.work .t-highlight { background: var(--amber-wash); color: var(--amber); }
+        .t-points { margin: 12px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: .92rem; line-height: 1.55; }
+        .t-points li + li { margin-top: 4px; }
+        .t-points li::marker { color: var(--brand); }
+        .t-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 13px; }
+        .tag { padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font: 500 .7rem/1.5 var(--mono); }
+
+        /* ---------- Publications ---------- */
         .publication-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
-        .publication-row { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 28px; padding: 25px 0 27px; border-bottom: 1px solid var(--line); }
-        .publication-venue { color: var(--brand-deep); font: 700 .75rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+        .publication-row { position: relative; display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 28px; padding: 25px 0 27px; border-bottom: 1px solid var(--line); }
+        .publication-row::before { content: ""; position: absolute; left: -18px; top: 26px; bottom: 26px; width: 3px; border-radius: 3px; background: var(--amber); transform: scaleY(0); transform-origin: 50% 0; transition: transform 300ms var(--ease-out); }
+        .publication-row:hover::before { transform: scaleY(1); }
+        .publication-venue { color: var(--brand-deep); font: 700 .75rem/1.45 var(--sans); letter-spacing: .08em; text-transform: uppercase; padding-top: 6px; }
         .publication-venue-link { color: var(--brand-deep); text-decoration: none; }
         .publication-venue-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         .publication-title { margin: 0; color: var(--ink); font-family: var(--serif); font-size: clamp(1.2rem, 2.2vw, 1.52rem); font-weight: 500; letter-spacing: -.025em; line-height: 1.25; }
-        .publication-title-link { color: inherit; text-decoration-color: color-mix(in srgb, var(--brand) 45%, transparent); text-decoration-thickness: 1px; text-underline-offset: 4px; }
-        .publication-title-link:hover { color: var(--brand-deep); text-decoration-thickness: 2px; }
+        .publication-title-link { color: inherit; text-decoration: none; background: linear-gradient(var(--brand), var(--brand)) 0 100% / 0 1.5px no-repeat; transition: background-size 380ms var(--ease-out), color 160ms ease; }
+        .publication-title-link:hover { color: var(--brand-deep); background-size: 100% 1.5px; }
         .publication-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
         .publication-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; background: var(--brand-wash); color: var(--brand-deep); font-size: .72rem; font-weight: 700; }
         .publication-badge.status { background: var(--paper-deep); color: var(--ink-soft); }
@@ -192,35 +270,87 @@
         .publication-badge.invited-presentation:hover { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--amber) 42%, transparent); }
         .publication-actions { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 15px; }
         .publication-link { color: var(--brand-deep); font-size: .79rem; font-weight: 700; text-decoration: none; }
+        .publication-link span[aria-hidden] { display: inline-block; transition: transform 200ms var(--ease-out); }
         .publication-link:hover { color: var(--amber); }
+        .publication-link:hover span[aria-hidden] { transform: translate(2px, -2px); }
 
+        /* ---------- Projects ---------- */
+        .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .project-card { display: flex; flex-direction: column; min-height: 200px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); transition: border-color 160ms ease, transform 260ms var(--ease-out), box-shadow 260ms ease; }
+        .project-card:hover { border-color: var(--brand); transform: translateY(-4px); box-shadow: 0 18px 40px rgba(38, 51, 55, .09); }
+        .project-group { margin: 0 0 16px; color: var(--ink-soft); font: 700 .78rem/1.2 var(--sans); letter-spacing: .1em; text-transform: uppercase; }
+        .project-grid + .project-group { margin-top: 40px; }
+        .project-links { display: flex; gap: 16px; margin-top: 14px; }
+        .project-icon { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 18px; border-radius: 11px; background: var(--brand-wash); color: var(--brand-deep); }
+        .project-context { margin: 0 0 4px; color: var(--amber); font: 500 .7rem/1.4 var(--mono); }
+        .project-card h3 { margin: 0 0 8px; font-size: 1.05rem; line-height: 1.3; }
+        .project-card p { margin: 0; color: var(--ink-soft); font-size: .88rem; line-height: 1.5; }
+        .project-card .t-tags { margin-top: auto; padding-top: 14px; }
+
+        /* ---------- Skills marquee ---------- */
+        .marquee-band { overflow: hidden; padding: 26px 0; border-top: 1px solid var(--line); background: var(--surface); }
+        .marquee-label { margin-bottom: 14px; text-align: center; }
+        .marquee { display: flex; overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+        .marquee + .marquee { margin-top: 10px; }
+        .marquee-track { display: flex; flex: 0 0 auto; gap: 10px; padding-right: 10px; animation: marquee 50s linear infinite; }
+        .marquee.reverse .marquee-track { animation-direction: reverse; animation-duration: 60s; }
+        .marquee:hover .marquee-track { animation-play-state: paused; }
+        .marquee-track span { padding: 7px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink-soft); font: 500 .8rem/1.3 var(--mono); white-space: nowrap; }
+        .marquee-track span.hot { border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); background: var(--amber-wash); color: var(--amber); }
+        @keyframes marquee { to { transform: translateX(-100%); } }
+
+        /* ---------- Honors ---------- */
         .honors-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
-        .honor-row { display: grid; grid-template-columns: 75px minmax(0, 1fr); gap: 25px; padding: 18px 0; border-bottom: 1px solid var(--line); }
-        .honor-year { color: var(--amber); font: 500 .76rem/1.7 var(--mono); }
+        .honor-row { display: grid; grid-template-columns: 75px 30px minmax(0, 1fr); gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--line); transition: background 200ms ease; }
+        .honor-row:hover { background: color-mix(in srgb, var(--amber-wash) 45%, transparent); }
+        .honor-year { padding-left: 4px; color: var(--amber); font: 500 .76rem/1.7 var(--mono); }
+        .honor-icon { color: var(--brand); font-size: .9rem; line-height: 1.7; text-align: center; transition: transform 300ms var(--ease-out), color 200ms ease; }
+        .honor-row:hover .honor-icon { transform: scale(1.25) rotate(-8deg); color: var(--amber); }
         .honor-text { color: var(--ink-soft); }
 
-        .site-footer { color: #c7d0d2; background: #1f2b2f; }
+        /* ---------- Footer ---------- */
+        .site-footer { color: #c7d0d2; background: var(--night); }
         .footer-shell { padding: 62px 0 30px; }
         .footer-grid { display: grid; grid-template-columns: 1.3fr .8fr .7fr; gap: 50px; }
         .footer-label { margin: 0 0 11px; color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+        .footer-grid p { margin: 0; }
         .site-footer a { color: inherit; text-decoration: none; }
         .site-footer a:hover { color: #fff; }
-        .footer-socials { display: flex; gap: 19px; font-size: 1.1rem; }
+        .footer-mail { display: block; overflow-wrap: anywhere; }
+        .footer-mail + .footer-mail { margin-top: 4px; }
+        .footer-socials { display: flex; gap: 12px; font-size: 1.05rem; }
+        .footer-socials a { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid rgba(255,255,255,.15); border-radius: 50%; transition: transform 220ms var(--ease-out), background 200ms ease, border-color 200ms ease; }
+        .footer-socials a:hover { transform: translateY(-3px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.35); }
         .footer-bottom { margin-top: 46px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.13); color: #849397; font-size: .78rem; }
 
-        .wechat-card { position: relative; width: min(100%, 320px); padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-align: center; }
-        .wechat-card h3 { margin: 0 0 3px; font-family: var(--serif); font-size: 1.45rem; }
+        .to-top { position: fixed; right: 22px; bottom: 22px; z-index: 25; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: var(--surface); color: var(--brand-deep); box-shadow: var(--shadow); cursor: pointer; opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity 260ms ease, transform 260ms var(--ease-out); }
+        .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+        .to-top:hover { color: #fff; background: var(--brand-deep); }
+
+        /* ---------- WeChat modal ---------- */
+        .wechat-modal { position: fixed; inset: 0; z-index: 50; display: flex; align-items: center; justify-content: center; padding: 16px; }
+        .wechat-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(4px); }
+        .wechat-card { position: relative; width: min(100%, 320px); padding: 28px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); text-align: center; animation: pop 320ms var(--ease-out); }
+        @keyframes pop { from { opacity: 0; transform: scale(.92) translateY(10px); } }
+        .wechat-card h3 { margin: 0 0 3px; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; }
         .wechat-card p { margin: 0 0 17px; color: var(--muted); font-size: .85rem; }
+        .wechat-card img { display: block; width: 224px; height: 224px; margin: 0 auto; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
         .wechat-close { position: absolute; top: 11px; right: 11px; display: grid; place-items: center; width: 32px; height: 32px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); cursor: pointer; }
         .wechat-close:hover { color: var(--ink); background: var(--paper-deep); }
+        .hidden { display: none !important; }
+
+        @media (max-width: 1060px) {
+            .nav-optional { display: none; }
+            .project-grid { grid-template-columns: repeat(2, 1fr); }
+        }
 
         @media (max-width: 860px) {
             .desktop-nav { display: none; }
             .nav-actions { margin-left: auto; }
             .nav-toggle { display: inline-grid; place-items: center; }
-            .hero-grid { grid-template-columns: 235px minmax(0, 1fr); gap: 48px; }
+            .hero-grid { grid-template-columns: minmax(0, 1fr) 240px; gap: 48px; }
             .hero-copy h1 { font-size: clamp(3rem, 8vw, 4.5rem); }
-            .about-copy { grid-template-columns: 1fr; gap: 20px; }
+            .about-grid { grid-template-columns: 1fr; }
         }
 
         @media (min-width: 861px) {
@@ -229,43 +359,65 @@
 
         @media (max-width: 680px) {
             body { font-size: 16px; }
-            .site-shell, .mobile-nav-inner { width: min(calc(100% - 36px), var(--shell)); }
-            .wordmark { font-size: 1.25rem; }
+            .site-shell, .mobile-nav-inner { width: min(calc(100% - 32px), var(--shell)); }
+            .wordmark { font-size: 1.1rem; }
             .nav-control { padding-inline: 10px; }
             .mobile-nav-inner { grid-template-columns: repeat(2, 1fr); }
             .mobile-nav a { text-align: left; }
             .hero { padding-top: 46px; }
-            .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-            .portrait-wrap { width: min(72vw, 285px); margin-inline: auto; }
-            .hero-copy { text-align: left; }
-            .hero-copy h1 { font-size: clamp(3.15rem, 16vw, 4.7rem); }
+            .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+            .hero-visual { order: -1; width: min(62vw, 250px); margin: 18px auto 0; }
+            .hero-copy h1 { font-size: clamp(3rem, 15vw, 4.7rem); }
+            .scroll-cue { display: none; }
             .section-heading { align-items: flex-start; flex-direction: column; gap: 13px; margin-bottom: 30px; }
             .research-grid { grid-template-columns: 1fr; }
             .research-card { min-height: 0; }
+            .research-card-index { margin-bottom: 24px; }
+            .timeline-rail { left: 15px; }
+            .t-item { grid-template-columns: 32px minmax(0, 1fr); column-gap: 12px; }
+            .t-date { grid-column: 2; grid-row: 1; padding: 0 0 6px; text-align: left; }
+            .t-date { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 6px; }
+            .t-date b::before { content: "– "; color: var(--muted); }
+            .t-node { grid-column: 1; grid-row: 1 / span 2; padding-top: 0; }
+            .t-card { grid-column: 2; }
+            .t-item:hover .t-card { transform: none; }
+            .journey-filters button { padding: 0 12px; }
             .publication-row { grid-template-columns: 1fr; gap: 8px; }
+            .publication-row::before { display: none; }
             .publication-venue { padding-top: 0; }
+            .project-grid { grid-template-columns: 1fr; }
+            .project-card { min-height: 0; }
+            .honor-row { grid-template-columns: 52px 22px minmax(0, 1fr); gap: 8px; }
             .footer-grid { grid-template-columns: 1fr; gap: 30px; }
             .footer-bottom { margin-top: 35px; }
+            .to-top { right: 14px; bottom: 14px; }
         }
 
         @media (prefers-reduced-motion: reduce) {
             html { scroll-behavior: auto; }
-            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation: none !important; }
+            .reveal { opacity: 1; transform: none; }
+            .lang-bar span { transform: none; }
+            .marquee-track:last-child { display: none; }
+            .marquee-track { flex-wrap: wrap; justify-content: center; }
+            .marquee { mask-image: none; -webkit-mask-image: none; }
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen antialiased">
+<body>
 
     <!-- ===================== NAV ===================== -->
     <header class="site-header">
         <nav class="site-shell nav-shell" aria-label="Primary navigation">
-            <a href="#top" class="wordmark">Dimitris&nbsp;Bouras<span class="wordmark-dot">.</span></a>
+            <a href="#top" class="wordmark"><img src="images/logo.svg" alt="" class="wordmark-mark" width="30" height="30">Dimitrios&nbsp;Bouras<span class="wordmark-dot">.</span></a>
             <div class="desktop-nav">
-                <a href="#about" class="hover:text-brand-darker transition" data-i18n="nav.about"></a>
-                <a href="#research" class="hover:text-brand-darker transition" data-i18n="nav.research"></a>
-                <a href="#publications" class="hover:text-brand-darker transition" data-i18n="nav.publications"></a>
-                <a href="#honors" class="hover:text-brand-darker transition" data-i18n="nav.honors"></a>
-                <a href="#contact" class="hover:text-brand-darker transition" data-i18n="nav.contact"></a>
+                <a href="#about" class="nav-optional" data-i18n="nav.about"></a>
+                <a href="#research" data-i18n="nav.research"></a>
+                <a href="#journey" data-i18n="nav.journey"></a>
+                <a href="#publications" data-i18n="nav.publications"></a>
+                <a href="#projects" data-i18n="nav.projects"></a>
+                <a href="#honors" data-i18n="nav.honors"></a>
+                <a href="#contact" class="nav-optional" data-i18n="nav.contact"></a>
             </div>
             <div class="nav-actions">
                 <button id="lang-toggle" type="button"
@@ -284,68 +436,84 @@
             <div class="mobile-nav-inner">
                 <a href="#about" data-i18n="nav.about"></a>
                 <a href="#research" data-i18n="nav.research"></a>
+                <a href="#journey" data-i18n="nav.journey"></a>
                 <a href="#publications" data-i18n="nav.publications"></a>
+                <a href="#projects" data-i18n="nav.projects"></a>
                 <a href="#honors" data-i18n="nav.honors"></a>
                 <a href="#contact" data-i18n="nav.contact"></a>
             </div>
         </nav>
+        <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
     </header>
 
-    <main class="flex-grow">
+    <main>
 
         <!-- ===================== HERO ===================== -->
         <section id="top" class="hero">
+            <canvas id="hero-canvas" aria-hidden="true"></canvas>
             <div class="site-shell hero-grid">
-                <figure class="portrait-wrap">
-                    <img src="images/profile.png" alt="Dimitrios Stamatios Bouras">
-                </figure>
-
                 <div class="hero-copy">
-                    <p class="eyebrow" data-i18n="hero.eyebrow"></p>
-                    <h1>Dimitris Bouras</h1>
-                    <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
-                    <p class="hero-body" data-i18n="hero.p1"></p>
-                    <p class="hero-status" data-i18n="hero.p2"></p>
+                    <p class="eyebrow reveal"><span class="live-dot" aria-hidden="true"></span><span data-i18n="hero.eyebrow"></span></p>
+                    <h1 class="reveal" style="--d:80ms"><span class="name-gradient">Dimitrios Bouras</span></h1>
+                    <p class="hero-subtitle reveal" style="--d:160ms" data-i18n="hero.subtitle"></p>
+                    <p class="hero-body reveal" style="--d:280ms" data-i18n="hero.p1"></p>
 
                     <!-- Buttons -->
-                    <div class="hero-actions">
+                    <div class="hero-actions reveal" style="--d:400ms">
                         <a id="cv-primary" href="CV.pdf" target="_blank" rel="noopener"
                            class="action action-primary">
-                            <i class="fas fa-file-pdf"></i> <span data-i18n="cv.primary"></span>
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i> <span data-i18n="cv.primary"></span>
                         </a>
                         <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener"
                            class="action">
-                            <i class="fas fa-graduation-cap"></i> <span data-i18n="link.scholar"></span>
+                            <i class="fas fa-graduation-cap" aria-hidden="true"></i> <span data-i18n="link.scholar"></span>
                         </a>
                         <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener"
                            class="action">
-                            <i class="fab fa-linkedin"></i> LinkedIn
+                            <i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn
                         </a>
                         <a href="https://github.com/jimbou" target="_blank" rel="noopener"
                            class="action">
-                            <i class="fab fa-github"></i> GitHub
+                            <i class="fab fa-github" aria-hidden="true"></i> GitHub
                         </a>
                         <button id="wechat-btn" type="button" aria-haspopup="dialog"
                            class="action">
-                            <i class="fab fa-weixin text-[#07C160]"></i> <span data-i18n="link.wechat"></span>
+                            <i class="fab fa-weixin wechat-icon" aria-hidden="true"></i> <span data-i18n="link.wechat"></span>
                         </button>
                     </div>
                 </div>
+
+                <div class="hero-visual reveal" style="--d:200ms">
+                    <div class="portrait-tilt" id="portrait-tilt">
+                        <div class="portrait-glow" aria-hidden="true"></div>
+                        <div class="portrait-orbit" aria-hidden="true"></div>
+                        <figure class="portrait-wrap">
+                            <img src="images/profile.png" alt="Dimitrios Stamatios Bouras">
+                        </figure>
+                    </div>
+                </div>
             </div>
+            <a href="#about" class="scroll-cue" aria-label="Scroll to content"></a>
         </section>
 
         <!-- ===================== ABOUT ===================== -->
         <section id="about" class="section-anchor site-section section-tint">
-            <div class="site-shell narrow-shell">
-                <div class="section-heading">
+            <div class="site-shell">
+                <div class="section-heading reveal">
                     <div>
                         <p class="section-kicker" data-i18n="about.kicker"></p>
                         <h2 data-i18n="about.heading"></h2>
                     </div>
                 </div>
-                <div class="about-copy">
-                    <p data-i18n="about.p1"></p>
-                    <p data-i18n="about.p2"></p>
+                <div class="about-grid">
+                    <div class="about-copy reveal">
+                        <p data-i18n="about.p1"></p>
+                        <p data-i18n="about.p2"></p>
+                    </div>
+                    <div class="lang-card reveal" style="--d:120ms">
+                        <h3 data-i18n="about.languages"></h3>
+                        <div id="lang-list"></div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -353,7 +521,7 @@
         <!-- ===================== RESEARCH INTERESTS ===================== -->
         <section id="research" class="section-anchor site-section">
             <div class="site-shell">
-                <div class="section-heading">
+                <div class="section-heading reveal">
                     <div>
                         <p class="section-kicker" data-i18n="research.kicker"></p>
                         <h2 data-i18n="research.heading"></h2>
@@ -363,27 +531,72 @@
             </div>
         </section>
 
-        <!-- ===================== PUBLICATIONS ===================== -->
-        <section id="publications" class="section-anchor site-section section-tint">
+        <!-- ===================== JOURNEY ===================== -->
+        <section id="journey" class="section-anchor site-section section-tint">
             <div class="site-shell">
-                <div class="section-heading">
+                <div class="section-heading reveal">
+                    <div>
+                        <p class="section-kicker" data-i18n="journey.kicker"></p>
+                        <h2 data-i18n="journey.heading"></h2>
+                    </div>
+                    <div class="journey-filters" role="group" aria-label="Filter timeline" id="journey-filters">
+                        <span class="filter-pill" aria-hidden="true"></span>
+                        <button type="button" data-filter="all" aria-pressed="true" data-i18n="journey.all"></button>
+                        <button type="button" data-filter="work" aria-pressed="false" data-i18n="journey.work"></button>
+                        <button type="button" data-filter="edu" aria-pressed="false" data-i18n="journey.edu"></button>
+                    </div>
+                </div>
+                <div class="timeline" id="timeline">
+                    <div class="timeline-rail" aria-hidden="true"><span></span></div>
+                    <ol id="journey-list" class="timeline" style="margin:0;padding:0"></ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== PUBLICATIONS ===================== -->
+        <section id="publications" class="section-anchor site-section">
+            <div class="site-shell">
+                <div class="section-heading reveal">
                     <div>
                         <p class="section-kicker" data-i18n="pub.kicker"></p>
                         <h2 data-i18n="pub.heading"></h2>
                     </div>
                     <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener"
                        >
-                        <span data-i18n="pub.scholar"></span> <i class="fas fa-arrow-right text-xs"></i>
+                        <span data-i18n="pub.scholar"></span> <i class="fas fa-arrow-right" style="font-size:.7rem" aria-hidden="true"></i>
                     </a>
                 </div>
                 <ul id="publications-list" class="publication-list"></ul>
             </div>
         </section>
 
+        <!-- ===================== PROJECTS ===================== -->
+        <section id="projects" class="section-anchor site-section section-tint">
+            <div class="site-shell">
+                <div class="section-heading reveal">
+                    <div>
+                        <p class="section-kicker" data-i18n="projects.kicker"></p>
+                        <h2 data-i18n="projects.heading"></h2>
+                    </div>
+                </div>
+                <h3 class="project-group" data-i18n="projects.research"></h3>
+                <div id="project-grid-research" class="project-grid"></div>
+                <h3 class="project-group" data-i18n="projects.engineering"></h3>
+                <div id="project-grid-engineering" class="project-grid"></div>
+            </div>
+        </section>
+
+        <!-- ===================== SKILLS MARQUEE ===================== -->
+        <section class="marquee-band" aria-labelledby="skills-label">
+            <p class="section-kicker marquee-label" id="skills-label" data-i18n="skills.kicker"></p>
+            <div class="marquee" id="marquee-a"></div>
+            <div class="marquee reverse" id="marquee-b"></div>
+        </section>
+
         <!-- ===================== HONORS ===================== -->
         <section id="honors" class="section-anchor site-section">
             <div class="site-shell narrow-shell">
-                <div class="section-heading">
+                <div class="section-heading reveal">
                     <div>
                         <p class="section-kicker" data-i18n="honors.kicker"></p>
                         <h2 data-i18n="honors.heading"></h2>
@@ -401,10 +614,10 @@
             <div class="footer-grid">
                 <div>
                     <p class="footer-label" data-i18n="footer.email"></p>
-                    <a href="mailto:bouras25@stu.pku.edu.cn" class="block hover:text-brand-light break-all">
+                    <a href="mailto:bouras25@stu.pku.edu.cn" class="footer-mail">
                         bouras25@stu.pku.edu.cn
                     </a>
-                    <a href="mailto:dimitrios.stamatios.bouras@gmail.com" class="block hover:text-brand-light break-all mt-1">
+                    <a href="mailto:dimitrios.stamatios.bouras@gmail.com" class="footer-mail">
                         dimitrios.stamatios.bouras@gmail.com
                     </a>
                 </div>
@@ -415,9 +628,9 @@
                 <div>
                     <p class="footer-label" data-i18n="footer.elsewhere"></p>
                     <div class="footer-socials">
-                        <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
-                        <a href="https://github.com/jimbou" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener" class="hover:text-brand-light" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://scholar.google.com/citations?user=SAT5NjIAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                        <a href="https://github.com/jimbou" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/dimitrios-stamatios-bouras" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>
@@ -427,9 +640,11 @@
         </div>
     </footer>
 
+    <button id="to-top" class="to-top" type="button" aria-label="Back to top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+
     <!-- ===================== WECHAT QR POPUP ===================== -->
-    <div id="wechat-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="wechat-title">
-        <div id="wechat-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div id="wechat-modal" class="wechat-modal hidden" role="dialog" aria-modal="true" aria-labelledby="wechat-title">
+        <div id="wechat-overlay" class="wechat-overlay"></div>
         <div class="wechat-card">
             <button id="wechat-close" type="button" aria-label="Close"
                     class="wechat-close">
@@ -437,7 +652,7 @@
             </button>
             <h3 id="wechat-title" data-i18n="wechat.title"></h3>
             <p data-i18n="wechat.hint"></p>
-            <img src="images/wechatqr.png" alt="WeChat QR code" class="w-56 h-56 mx-auto rounded-lg ring-1 ring-gray-200">
+            <img src="images/wechatqr.png" alt="WeChat QR code">
         </div>
     </div>
 
@@ -447,7 +662,9 @@
         const i18n = {
             "nav.about":        { en: "About",        zh: "关于" },
             "nav.research":     { en: "Research",     zh: "研究" },
+            "nav.journey":      { en: "Experience",   zh: "经历" },
             "nav.publications": { en: "Publications", zh: "论文" },
+            "nav.projects":     { en: "Projects",     zh: "项目" },
             "nav.honors":       { en: "Honors",       zh: "荣誉" },
             "nav.contact":      { en: "Contact",      zh: "联系" },
 
@@ -459,33 +676,39 @@
             "wechat.title": { en: "Scan to add me on WeChat", zh: "扫码添加微信" },
             "wechat.hint":  { en: "Open WeChat and scan the QR code", zh: "打开微信，扫一扫" },
 
+
             "hero.eyebrow": { en: "Programming languages · Software engineering · AI", zh: "程序设计语言 · 软件工程 · 人工智能" },
             "hero.subtitle": {
                 en: "PhD Researcher in Computer Science &middot; Peking University",
                 zh: "计算机科学博士研究生 &middot; 北京大学"
             },
             "hero.p1": {
-                en: 'I am a PhD student at the <span class="font-medium text-gray-800">Programming Languages Lab, Peking University</span>, working on <span class="font-medium text-gray-800">LLM-based program analysis</span>. I hold an MEng from the National Technical University of Athens and an MSc from University College London (UCL).',
-                zh: '我是<span class="font-medium text-gray-800">北京大学程序设计语言实验室</span>的博士生，研究方向为<span class="font-medium text-gray-800">基于大语言模型的程序分析</span>。我拥有雅典国立技术大学的工程硕士学位与伦敦大学学院（UCL）的理学硕士学位。'
-            },
-            "hero.p2": {
-                en: 'From June 2026 I am joining <span class="font-medium text-gray-800">Huawei Research, Shanghai</span> as a <span class="font-medium text-gray-800">PhD Research Intern working on agent design for AI kernel optimisation</span>.',
-                zh: '自 2026 年 6 月起，我将加入<span class="font-medium text-gray-800">华为研究院（上海）</span>，担任<span class="font-medium text-gray-800">博士研究实习生，从事面向 AI 算子优化的智能体设计</span>。'
+                en: 'PhD student at the <strong>Programming Languages Lab, Peking University</strong>, working on <strong>LLM-based program analysis</strong>. Previously MSc Software Systems Engineering at University College London (ranked 1st) and MEng in Electrical and Computer Engineering at the National Technical University of Athens.',
+                zh: '<strong>北京大学程序设计语言实验室</strong>博士研究生，研究方向为<strong>基于大语言模型的程序分析</strong>。此前获伦敦大学学院（UCL）软件系统工程理学硕士（专业第一）及雅典国立技术大学电气与计算机工程硕士学位。'
             },
 
             "about.heading": { en: "About", zh: "关于我" },
             "about.kicker":  { en: "Profile", zh: "个人简介" },
             "about.p1": {
-                en: 'My research sits at the intersection of <span class="font-medium text-gray-800">programming languages, software engineering and large language models</span>. I am interested in how LLMs can reason about, analyse and improve programs — and in building <span class="font-medium text-gray-800">reliable, secure agents</span> that do this work trustworthily.',
-                zh: '我的研究处于<span class="font-medium text-gray-800">程序设计语言、软件工程与大语言模型</span>的交叉领域。我关注大语言模型如何推理、分析并改进程序，并致力于构建<span class="font-medium text-gray-800">可靠、安全的智能体</span>来可信地完成这些工作。'
+                en: 'My research is in <strong>programming languages and software engineering</strong>, with a focus on large language models: using them to analyse, verify and improve programs, and designing <strong>coding agents that are reliable and secure</strong>.',
+                zh: '我的研究方向为<strong>程序设计语言与软件工程</strong>，重点关注大语言模型：利用大语言模型分析、验证和改进程序，并设计<strong>可靠、安全的编程智能体</strong>。'
             },
             "about.p2": {
-                en: "Before my PhD I worked as a Research Associate at the PL Lab of Peking University and as a DevOps Engineer at IBM, where I built CI/CD and cloud infrastructure for a core banking system for the National Bank of Greece.",
-                zh: "在攻读博士学位之前，我曾在北京大学程序设计语言实验室担任研究助理，并在 IBM 担任 DevOps 工程师，为希腊国家银行的核心银行系统构建了 CI/CD 流水线与云基础设施。"
+                en: "Before my PhD I worked as a Research Associate at the PL Lab of Peking University and as a DevOps Engineer at IBM, where I built CI/CD and cloud infrastructure for a core banking system for the National Bank of Greece. In summer 2026 I was a PhD Research Intern at Huawei Research in Shanghai, where I built K-LENS, an LLM agent for AscendC kernel optimisation that Huawei now uses internationally to optimise its kernels.",
+                zh: "在攻读博士学位之前，我曾在北京大学程序设计语言实验室担任研究助理，并在 IBM 担任 DevOps 工程师，为希腊国家银行的核心银行系统构建了 CI/CD 流水线与云基础设施。2026 年夏，我在华为研究院（上海）担任博士研究实习生，开发了 K-LENS：一个面向 AscendC 算子优化的 LLM 智能体，现已被华为在多个国家和地区用于优化其算子。"
             },
+            "about.languages": { en: "Languages", zh: "语言能力" },
 
             "research.heading": { en: "Research Interests", zh: "研究兴趣" },
             "research.kicker":  { en: "Research agenda", zh: "研究方向" },
+
+            "journey.heading": { en: "Education & Experience", zh: "教育与工作经历" },
+            "journey.kicker":  { en: "Curriculum vitae", zh: "个人履历" },
+            "journey.all":     { en: "All", zh: "全部" },
+            "journey.work":    { en: "Work", zh: "工作" },
+            "journey.edu":     { en: "Education", zh: "教育" },
+            "journey.typeWork": { en: "Experience", zh: "工作" },
+            "journey.typeEdu":  { en: "Education", zh: "教育" },
 
             "pub.heading": { en: "Publications", zh: "论文发表" },
             "pub.kicker":  { en: "Selected work", zh: "代表性工作" },
@@ -493,15 +716,30 @@
             "pub.project": { en: "Project", zh: "项目主页" },
             "pub.paper":   { en: "Paper", zh: "论文" },
 
+            "projects.heading": { en: "Projects", zh: "项目" },
+            "projects.kicker":  { en: "Research & engineering", zh: "研究与工程" },
+            "projects.research": { en: "Research", zh: "研究项目" },
+            "projects.engineering": { en: "Engineering", zh: "工程项目" },
+
+            "skills.kicker": { en: "Technical skills", zh: "技术技能" },
+
             "honors.heading": { en: "Selected Honors & Awards", zh: "荣誉与奖项（精选）" },
             "honors.kicker":  { en: "Recognition", zh: "荣誉" },
 
             "footer.email":     { en: "Email",     zh: "邮箱" },
             "footer.based":     { en: "Based in",  zh: "所在地" },
-            "footer.location":  { en: "Beijing, China &middot; Shanghai (from June 2026)", zh: "中国北京 &middot; 上海（2026 年 6 月起）" },
+            "footer.location":  { en: "Beijing, China", zh: "中国北京" },
             "footer.elsewhere": { en: "Elsewhere", zh: "其他链接" },
             "footer.rights":    { en: "All rights reserved.", zh: "保留所有权利。" }
         };
+
+        // ---- Spoken languages ----
+        const spokenLanguages = [
+            { name: { en: "English", zh: "英语" }, level: { en: "C2", zh: "C2" }, pct: 100 },
+            { name: { en: "Greek", zh: "希腊语" }, level: { en: "Native", zh: "母语" }, pct: 100 },
+            { name: { en: "French", zh: "法语" }, level: { en: "B2", zh: "B2" }, pct: 68 },
+            { name: { en: "Chinese", zh: "中文" }, level: { en: "A1 · learning", zh: "A1 · 学习中" }, pct: 22 }
+        ];
 
         // ---- Research interests. Translatable fields use { en, zh }. ----
         const researchInterests = [
@@ -514,7 +752,7 @@
             {
                 icon: "fas fa-robot",
                 title: { en: "Coding Agents & Agent Design", zh: "编程智能体与智能体设计" },
-                desc:  { en: "Designing reliable, secure agents — including prompt-injection-resistant coding agents and agents for AI kernels.",
+                desc:  { en: "Designing reliable, secure agents, including prompt-injection-resistant coding agents and agents for AI kernels.",
                          zh: "设计可靠、安全的智能体，包括抗提示注入的编程智能体以及面向 AI 算子的智能体。" }
             },
             {
@@ -528,6 +766,132 @@
                 title: { en: "Software Verification", zh: "软件验证" },
                 desc:  { en: "Verification-aware LLMs and AI-assisted verification of smart contracts.",
                          zh: "面向验证的大语言模型，以及 AI 辅助的智能合约验证。" }
+            }
+        ];
+
+        // ---- Education & work (newest first). type: "work" | "edu" ----
+        const journey = [
+            {
+                type: "edu", icon: "fas fa-graduation-cap",
+                start: "09.2025", end: { en: "Present", zh: "至今" },
+                role:  { en: "PhD in Computer Science", zh: "计算机科学博士" },
+                org:   { en: "Peking University · PL Lab", zh: "北京大学 · 程序设计语言实验室" },
+                place: { en: "Beijing", zh: "北京" },
+                highlight: { icon: "fas fa-star", en: "GPA 4.0 / 4.0", zh: "GPA 4.0 / 4.0" },
+                points: [
+                    { en: "Tentative thesis: LLM-Based Program Analysis.", zh: "博士论文方向：基于大语言模型的程序分析。" },
+                    { en: "Principal Investigator of an NSFC grant; Outstanding Research Award, School of Computer Science (2026).",
+                      zh: "国家自然科学基金项目负责人；北京大学计算机学院优秀科研奖（2026）。" }
+                ],
+                tags: ["Program analysis", "Verification", "LLMs"]
+            },
+            {
+                type: "work", icon: "fas fa-microchip",
+                start: "06.2026", end: "09.2026",
+                role:  { en: "AI Algorithm PhD Intern", zh: "AI 算法博士实习生" },
+                org:   { en: "Huawei Research · AI Algorithm Lab", zh: "华为研究院 · AI Algorithm Lab" },
+                place: { en: "Shanghai", zh: "上海" },
+                points: [
+                    { en: "Worked on agent design for AI kernel optimisation. Designed and built K-LENS, an LLM agent for AscendC kernel optimisation using rerankable lessons from prior search.",
+                      zh: "从事面向 AI 算子优化的智能体设计。设计并开发 K-LENS：一个面向 AscendC 算子自动优化的 LLM 智能体，复用并重排序历史搜索中积累的优化经验。" },
+                    { en: "Deployed and used internationally by Huawei to optimise its kernels, with an average speedup of over 20% across optimised kernels.",
+                      zh: "已在华为多个国家和地区部署使用，用于优化其算子，优化后的算子平均加速超过 20%。" }
+                ],
+                tags: ["LLM agents", "AscendC", "Kernel optimisation"]
+            },
+            {
+                type: "work", icon: "fas fa-flask",
+                start: "09.2024", end: "09.2025",
+                role:  { en: "Research Associate", zh: "助理研究员" },
+                org:   { en: "Peking University · PL Lab", zh: "北京大学 · 程序设计语言实验室" },
+                place: { en: "Beijing", zh: "北京" },
+                points: [
+                    { en: "Researched LLM-assisted genetic improvement and structural reasoning about program correctness.",
+                      zh: "研究基于 LLM 的软件遗传改进，以及程序正确性的结构化推理。" },
+                    { en: "Investigated LLM-generated ghost code for symbolic execution and AI-assisted smart contract verification.",
+                      zh: "探索利用 LLM 生成 ghost code 辅助符号执行，以及 AI 辅助智能合约验证。" }
+                ],
+                tags: ["Symbolic execution", "Genetic improvement"]
+            },
+            {
+                type: "edu", icon: "fas fa-graduation-cap",
+                start: "09.2023", end: "09.2024",
+                role:  { en: "MSc Software Systems Engineering", zh: "软件系统工程理学硕士" },
+                org:   { en: "University College London", zh: "伦敦大学学院（UCL）" },
+                place: { en: "London", zh: "伦敦" },
+                highlight: { icon: "fas fa-medal", en: "Ranked 1st · Class of 2024", zh: "2024 届专业排名第一" },
+                points: [
+                    { en: "Graduated with High First-Class Honours (79.6%).", zh: "以最高等级荣誉毕业（79.6/100）。" },
+                    { en: "Extended the MAGPIE Genetic Improvement framework with new fitness functions and LLM-assisted crossover.",
+                      zh: "扩展 MAGPIE 遗传改进框架，引入新型适应度函数与 LLM 辅助交叉。" }
+                ],
+                tags: ["Genetic improvement", "Performance"]
+            },
+            {
+                type: "work", icon: "fas fa-server",
+                start: "03.2023", end: "09.2023",
+                role:  { en: "DevOps Engineer", zh: "DevOps 工程师" },
+                org:   { en: "IBM", zh: "IBM" },
+                place: { en: "Athens", zh: "雅典" },
+                points: [
+                    { en: "COSMOS project: implementation of a new core banking system for the National Bank of Greece.",
+                      zh: "参与 COSMOS 项目：希腊国家银行新一代核心银行系统。" },
+                    { en: "Built CI/CD and testing pipelines and a multipurpose release-management web tool.",
+                      zh: "构建 CI/CD 与测试流水线，并开发多功能发布管理 Web 工具。" },
+                    { en: "Managed cloud infrastructure with Terraform and Ansible; production cloud support and monitoring.",
+                      zh: "使用 Terraform 与 Ansible 管理云基础设施，保障生产环境高可用。" }
+                ],
+                tags: ["CI/CD", "Terraform", "OpenShift"]
+            },
+            {
+                type: "edu", icon: "fas fa-graduation-cap",
+                start: "09.2017", end: "02.2023",
+                role:  { en: "MEng & BSc, Electrical and Computer Engineering", zh: "电气与计算机工程硕士 / 学士" },
+                org:   { en: "National Technical University of Athens", zh: "雅典国立技术大学（NTUA）" },
+                place: { en: "Athens", zh: "雅典" },
+                highlight: { icon: "fas fa-award", en: "8.69 / 10 · First Class Honours", zh: "8.69 / 10 · 优秀" },
+                points: [
+                    { en: "Five-year integrated master's (300 ECTS) in computer systems, software, and management & decision support.",
+                      zh: "五年制一体化硕士（300 ECTS），方向：计算机系统、计算机软件、管理与决策支持系统。" }
+                ],
+                tags: ["Systems", "Hardware", "Software"]
+            },
+            {
+                type: "work", icon: "fas fa-microscope",
+                start: "10.2021", end: "02.2023",
+                role:  { en: "Research Assistant & Teaching Assistant", zh: "研究助理与教学助理" },
+                org:   { en: "NTUA · Microprocessors & Digital Systems Lab", zh: "雅典国立技术大学 · 微处理器与数字系统实验室" },
+                place: { en: "Athens", zh: "雅典" },
+                points: [
+                    { en: "Research on energy efficiency, binary code lifting and heterogeneous computing; deployed and maintained the lab's cloud infrastructure.",
+                      zh: "参与能效优化、二进制代码提升与异构计算研究，并维护研究所需的云基础设施。" },
+                    { en: "Taught and examined students in the Microcomputers Laboratory course.",
+                      zh: "协助微型计算机实验课程教学，并负责作业与考试评分。" }
+                ],
+                tags: ["LLVM", "Energy", "Teaching"]
+            },
+            {
+                type: "work", icon: "fas fa-cloud",
+                start: "07.2021", end: "09.2021",
+                role:  { en: "DevOps Integration Specialist Intern", zh: "DevOps 集成实习生" },
+                org:   { en: "IBM", zh: "IBM" },
+                place: { en: "Athens", zh: "雅典" },
+                points: [
+                    { en: "Maintained and created CI/CD pipelines and built cloud automation.", zh: "维护与创建 CI/CD 流水线，提供云自动化解决方案。" }
+                ],
+                tags: ["Jenkins", "Automation"]
+            },
+            {
+                type: "edu", icon: "fas fa-school",
+                start: "09.2014", end: "06.2017",
+                role:  { en: "High School Diploma", zh: "高中毕业" },
+                org:   { en: "2nd General High School of Kalyvia", zh: "卡利维亚第二普通高中" },
+                place: { en: "Athens", zh: "雅典" },
+                highlight: { icon: "fas fa-trophy", en: "20.0 / 20.0 · Top of class", zh: "20.0 / 20.0 · 年级第一" },
+                points: [
+                    { en: "Top performer at the National Chemistry Olympiad and reserve for the International Chemistry Olympiad.",
+                      zh: "希腊全国化学奥林匹克竞赛优秀选手，入选国际化学奥林匹克竞赛候补名单。" }
+                ]
             }
         ];
 
@@ -585,20 +949,130 @@
             }
         ];
 
+        // ---- Projects. Research projects link to their project page and paper. ----
+        const projects = [
+            {
+                group: "research", icon: "fas fa-microchip", context: "Huawei · 2026",
+                title: { en: "K-LENS", zh: "K-LENS" },
+                desc:  { en: "LLM agent for AscendC kernel optimisation using rerankable lessons from prior search. Deployed and used internationally by Huawei to optimise its kernels, with an average speedup of over 20% across optimised kernels.",
+                         zh: "基于可重排序历史经验的 AscendC 算子优化 LLM 智能体。已在华为多个国家和地区部署使用，用于优化其算子，优化后的算子平均加速超过 20%。" },
+                tags: ["LLM agents", "AscendC", "Kernel optimisation"]
+            },
+            {
+                group: "research", icon: "fas fa-project-diagram", context: "ICSE 2026",
+                title: { en: "HoarePrompt", zh: "HoarePrompt" },
+                desc:  { en: "Structural reasoning about program correctness in natural language. ACM SIGSOFT Distinguished Paper Award.",
+                         zh: "以自然语言对程序正确性进行结构化推理。获 ACM SIGSOFT 杰出论文奖。" },
+                project: "https://bouras.online/hoareprompt/", paper: "https://arxiv.org/abs/2503.19599",
+                tags: ["LLMs", "Program correctness"]
+            },
+            {
+                group: "research", icon: "fas fa-bomb", context: "ISSTA 2026",
+                title: { en: "Gordian", zh: "Gordian" },
+                desc:  { en: "Defusing logic bombs in symbolic execution with LLM-generated ghost code.",
+                         zh: "利用 LLM 生成的 ghost code 拆除符号执行中的逻辑炸弹。" },
+                project: "https://bouras.online/gordian/", paper: "https://arxiv.org/abs/2602.19128",
+                tags: ["Symbolic execution", "KLEE"]
+            },
+            {
+                group: "research", icon: "fas fa-user-shield", context: "LMPL 2026",
+                title: { en: "CapScope", zh: "CapScope" },
+                desc:  { en: "A capability-scoped harness for prompt-injection-resistant coding agents.",
+                         zh: "面向抗提示注入编程智能体的能力作用域框架。" },
+                project: "https://bouras.online/capscope/", paper: "https://arxiv.org/abs/2609.08371",
+                tags: ["Coding agents", "Security"]
+            },
+            {
+                group: "research", icon: "fas fa-database", context: "LLM4Code @ ICSE 2026",
+                title: { en: "Mnimi", zh: "Mnimi" },
+                desc:  { en: "Statistical-independence-aware caching for LLM workflows.",
+                         zh: "面向 LLM 工作流的统计独立性感知缓存。" },
+                project: "https://bouras.online/mnimi/", paper: "https://arxiv.org/abs/2511.22118",
+                tags: ["LLM workflows", "Caching"]
+            },
+            {
+                group: "research", icon: "fas fa-dna", context: "GI @ ICSE 2025 · SSBSE 2025",
+                title: { en: "Genetic Improvement with MAGPIE", zh: "基于 MAGPIE 的遗传改进" },
+                desc:  { en: "LLM-assisted crossover and optimised fitness functions for improving software execution time, built on the MAGPIE framework.",
+                         zh: "基于 MAGPIE 框架的 LLM 辅助交叉与优化适应度函数，用于改进软件执行时间。" },
+                links: [
+                    { label: { en: "LLM crossover", zh: "LLM 交叉" }, href: "https://bouras.online/llmcrossover/" },
+                    { label: { en: "Fitness functions", zh: "适应度函数" }, href: "https://bouras.online/fitness/" }
+                ],
+                tags: ["Genetic improvement", "Performance"]
+            },
+            {
+                group: "engineering", icon: "fas fa-check-double",
+                title: { en: "LLVM Verification Service", zh: "LLVM 验证工具" },
+                desc:  { en: "Microservices-based tool for verifying C function autocompletions using symbolic execution and static analysis.",
+                         zh: "基于微服务的 C 函数自动补全验证工具，结合符号执行与静态分析。" },
+                tags: ["LLVM", "KLEE"]
+            },
+            {
+                group: "engineering", icon: "fas fa-leaf", context: { en: "Team leader · with NTT Data", zh: "团队负责人 · 与 NTT Data 合作" },
+                title: { en: "Green Software Foundation", zh: "Green Software Foundation" },
+                desc:  { en: "Parameter optimisation and rightsizing models for the Impact Engine Framework.",
+                         zh: "为 Impact Engine Framework 开发参数优化与资源调整模型。" },
+                tags: ["Cloud", "Sustainability"]
+            },
+            {
+                group: "engineering", icon: "fab fa-raspberry-pi",
+                title: { en: "Operating System for ARMv8-A", zh: "ARMv8-A 操作系统" },
+                desc:  { en: "Custom operating system implemented from scratch for ARMv8-A on a Raspberry Pi 3.",
+                         zh: "在 Raspberry Pi 3 上从零实现的 ARMv8-A 操作系统。" },
+                tags: ["C", "Assembly"]
+            },
+            {
+                group: "engineering", icon: "fas fa-network-wired",
+                title: { en: "Distributed Neural Network Training", zh: "分布式神经网络训练" },
+                desc:  { en: "Distributed neural network training pipeline using TensorFlow.",
+                         zh: "基于 TensorFlow 的分布式神经网络训练流水线。" },
+                tags: ["TensorFlow"]
+            },
+            {
+                group: "engineering", icon: "fas fa-camera-retro",
+                title: { en: "FPGA Debayering Filter", zh: "FPGA 去马赛克滤波器" },
+                desc:  { en: "Parametrised debayering filter for a ZYNQ SoC FPGA, designed in Xilinx Vivado.",
+                         zh: "面向 ZYNQ SoC FPGA 的参数化去马赛克滤波器，使用 Xilinx Vivado 设计。" },
+                tags: ["VHDL", "Vivado"]
+            },
+            {
+                group: "engineering", icon: "fas fa-charging-station",
+                title: { en: "EV Charging Station System", zh: "电动汽车充电站系统" },
+                desc:  { en: "User interface, CLI and backend for an electric vehicle charging station system.",
+                         zh: "电动汽车充电站系统的用户界面、命令行工具与后端开发。" },
+                tags: ["Backend", "CLI"]
+            }
+        ];
+
+        // ---- Skills marquee (rows). "*" marks highlighted items. ----
+        const skillRows = [
+            ["*LLM agents", "Python", "C", "C++", "*KLEE", "*SymCC", "*LLVM", "TypeScript", "Go", "Java", "Standard ML", "Prolog", "Assembly (x86, RISC-V)", "Verilog", "VHDL"],
+            ["Docker", "Kubernetes", "OpenShift", "Jenkins", "*Terraform", "Ansible", "Azure DevOps", "AWS", "Prometheus", "ELK", "*PyTorch", "TensorFlow", "Xilinx Vivado", "SQL", "Groovy"]
+        ];
+
         // ---- Honors (most relevant first). ----
         const honors = [
-            { year: "2026", text: { en: "ACM SIGSOFT Distinguished Paper Award, ICSE 2026",
+            { year: "2026", icon: "fas fa-trophy", text: { en: "ACM SIGSOFT Distinguished Paper Award, ICSE 2026",
                                     zh: "ACM SIGSOFT 杰出论文奖，ICSE 2026" } },
-            { year: "2025", text: { en: "NSFC Research Fund for Excellent International PhD Students — Principal Investigator on verification-aware LLMs, symbolic execution and smart contract verification",
+            { year: "2026", icon: "fas fa-star", text: { en: "Outstanding Research Award, School of Computer Science, Peking University",
+                                    zh: "北京大学计算机学院优秀科研奖" } },
+            { year: "2025", icon: "fas fa-flask", text: { en: "NSFC Research Fund for Excellent International PhD Students — Principal Investigator on verification-aware LLMs, symbolic execution and smart contract verification",
                                     zh: "国家自然科学基金（NSFC）外国学者研究基金优秀博士生项目——作为负责人，研究面向验证的大语言模型、符号执行与智能合约验证" } },
-            { year: "2025", text: { en: "International Computer Science Excellent PhD Student Scholarship, Peking University",
+            { year: "2025", icon: "fas fa-university", text: { en: "International Computer Science Excellent PhD Student Scholarship, Peking University",
                                     zh: "北京大学国际计算机科学优秀博士生奖学金" } },
-            { year: "2025", text: { en: "Chinese Government Scholarship for PhD studies at Peking University",
+            { year: "2025", icon: "fas fa-globe-asia", text: { en: "Chinese Government Scholarship for PhD studies at Peking University",
                                     zh: "中国政府奖学金（北京大学博士研究生）" } },
-            { year: "2024", text: { en: "Ranked 1st — UCL Software Systems Engineering MSc, Class of 2024",
+            { year: "2025", icon: "fas fa-microphone-alt", text: { en: "Best Presentation Award, GI @ ICSE 2025",
+                                    zh: "GI @ ICSE 2025 最佳报告奖" } },
+            { year: "2024", icon: "fas fa-medal", text: { en: "Ranked 1st — UCL Software Systems Engineering MSc, Class of 2024",
                                     zh: "UCL 软件系统工程硕士 2024 届第一名" } },
-            { year: "2023", text: { en: "Eugenides Foundation & HELLENiQ ENERGY scholarships for postgraduate studies",
-                                    zh: "Eugenides 基金会与 HELLENiQ ENERGY 研究生奖学金" } }
+            { year: "2023", icon: "fas fa-hand-holding-heart", text: { en: "Eugenides Foundation & HELLENiQ ENERGY scholarships for postgraduate studies",
+                                    zh: "Eugenides 基金会与 HELLENiQ ENERGY 研究生奖学金" } },
+            { year: "2017", icon: "fas fa-atom", text: { en: "National Chemistry Olympiad — top performer, reserve for the International Chemistry Olympiad",
+                                    zh: "希腊全国化学奥林匹克竞赛优秀选手，入选国际化学奥林匹克竞赛候补名单" } },
+            { year: "2016", icon: "fas fa-landmark", text: { en: "European Youth Parliament of Greece — top participant, reserve for the 87th International Session",
+                                    zh: "欧洲青年议会希腊代表选拔表现优异，入选第 87 届国际会议候补名单" } }
         ];
 
         // ---- CV files per language ----
@@ -607,15 +1081,41 @@
         // ===================== Rendering & language switching =====================
         const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
         const pick = (field, lang) => (field && typeof field === "object" && "en" in field) ? field[lang] : field;
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let journeyFilter = "all";
 
         function renderLists(lang) {
+            document.getElementById("lang-list").innerHTML = spokenLanguages.map((l, i) => `
+                <div class="lang-row">
+                    <div class="lang-head"><span>${esc(pick(l.name, lang))}</span><span class="lang-level">${esc(pick(l.level, lang))}</span></div>
+                    <div class="lang-bar"><span style="--w:${l.pct}%;--d:${200 + i * 140}ms"></span></div>
+                </div>
+            `).join("");
+
             document.getElementById("research-grid").innerHTML = researchInterests.map((r, index) => `
-                <article class="research-card">
+                <article class="research-card spot reveal" style="--d:${index * 80}ms">
                     <span class="research-card-index">${String(index + 1).padStart(2, "0")}</span>
                     <span class="research-card-icon" aria-hidden="true"><i class="${esc(r.icon)}"></i></span>
                     <h3>${esc(pick(r.title, lang))}</h3>
                     <p>${esc(pick(r.desc, lang))}</p>
                 </article>
+            `).join("");
+
+            document.getElementById("journey-list").innerHTML = journey.map(j => `
+                <li class="t-item ${j.type} reveal" data-type="${j.type}"${journeyFilter !== "all" && journeyFilter !== j.type ? " hidden" : ""}>
+                    <div class="t-date"><b>${esc(pick(j.end, lang))}</b> ${esc(j.start)}</div>
+                    <div class="t-node" aria-hidden="true"><span><i class="${esc(j.icon)}"></i></span></div>
+                    <article class="t-card">
+                        <div class="t-top">
+                            <h3 class="t-role">${esc(pick(j.role, lang))}</h3>
+                            <span class="t-type">${esc(pick(i18n[j.type === "work" ? "journey.typeWork" : "journey.typeEdu"], lang))}</span>
+                        </div>
+                        <p class="t-org">${esc(pick(j.org, lang))} <span>· ${esc(pick(j.place, lang))}</span></p>
+                        ${j.highlight ? `<span class="t-highlight"><i class="${esc(j.highlight.icon)}" aria-hidden="true"></i>${esc(pick(j.highlight, lang))}</span>` : ""}
+                        <ul class="t-points">${j.points.map(pt => `<li>${esc(pick(pt, lang))}</li>`).join("")}</ul>
+                        ${j.tags ? `<div class="t-tags">${j.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
+                    </article>
+                </li>
             `).join("");
 
             document.getElementById("publications-list").innerHTML = publications.map(p => {
@@ -643,22 +1143,59 @@
                         : ""
                 ].filter(Boolean).join("");
                 return `
-                    <li class="publication-row">
-                                <span class="publication-venue">${venue}</span>
-                            <div>
-                                <p class="publication-title">${title}</p>
+                    <li class="publication-row reveal">
+                        <span class="publication-venue">${venue}</span>
+                        <div>
+                            <p class="publication-title">${title}</p>
                             ${(award || status || invitedPresentation) ? `<div class="publication-meta">${award}${status}${invitedPresentation}</div>` : ""}
                             ${actions ? `<div class="publication-actions">${actions}</div>` : ""}
                         </div>
                     </li>`;
             }).join("");
 
+            const projectLink = (href, label) =>
+                `<a href="${esc(href)}" target="_blank" rel="noopener" class="publication-link">${esc(label)} <span aria-hidden="true">↗</span></a>`;
+            ["research", "engineering"].forEach(group => {
+                document.getElementById(`project-grid-${group}`).innerHTML = projects.filter(p => p.group === group).map((p, i) => {
+                    const links = [
+                        p.project ? projectLink(p.project, pick(i18n["pub.project"], lang)) : "",
+                        p.paper ? projectLink(p.paper, pick(i18n["pub.paper"], lang)) : "",
+                        ...(p.links || []).map(l => projectLink(l.href, pick(l.label, lang)))
+                    ].filter(Boolean).join("");
+                    return `
+                    <article class="project-card spot reveal" style="--d:${(i % 3) * 70}ms">
+                        <span class="project-icon" aria-hidden="true"><i class="${esc(p.icon)}"></i></span>
+                        ${p.context ? `<p class="project-context">${esc(pick(p.context, lang))}</p>` : ""}
+                        <h3>${esc(pick(p.title, lang))}</h3>
+                        <p>${esc(pick(p.desc, lang))}</p>
+                        ${links ? `<div class="project-links">${links}</div>` : ""}
+                        <div class="t-tags">${p.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>
+                    </article>`;
+                }).join("");
+            });
+
             document.getElementById("honors-list").innerHTML = honors.map(h => `
-                <li class="honor-row">
+                <li class="honor-row reveal">
                     <span class="honor-year">${esc(h.year)}</span>
+                    <span class="honor-icon" aria-hidden="true"><i class="${esc(h.icon)}"></i></span>
                     <span class="honor-text">${esc(pick(h.text, lang))}</span>
                 </li>
             `).join("");
+
+            observeReveals();
+            bindSpotlights();
+            updateFilterPill();
+        }
+
+        function renderMarquee() {
+            ["marquee-a", "marquee-b"].forEach((id, row) => {
+                const items = skillRows[row].map(s => s.startsWith("*")
+                    ? `<span class="hot">${esc(s.slice(1))}</span>`
+                    : `<span>${esc(s)}</span>`).join("");
+                // The track is duplicated so the loop is seamless; the copy is hidden from assistive tech.
+                document.getElementById(id).innerHTML =
+                    `<div class="marquee-track">${items}</div><div class="marquee-track" aria-hidden="true">${items}</div>`;
+            });
         }
 
         function setLang(lang) {
@@ -678,10 +1215,215 @@
             try { localStorage.setItem("lang", lang); } catch (e) {}
         }
 
+        // ===================== Motion & interaction =====================
+
+        // ---- Scroll reveal (elements already seen stay visible across re-renders) ----
+        let revealObserver = null;
+        let firstRenderDone = false;
+        function observeReveals() {
+            const items = document.querySelectorAll(".reveal:not(.is-visible)");
+            if (reduceMotion || !("IntersectionObserver" in window)) {
+                items.forEach(el => el.classList.add("is-visible"));
+                return;
+            }
+            if (!revealObserver) {
+                revealObserver = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.classList.add("is-visible");
+                        revealObserver.unobserve(entry.target);
+                    });
+                }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+            }
+            items.forEach(el => {
+                // On a language switch, don't replay animations for content above the fold line.
+                if (firstRenderDone && el.getBoundingClientRect().top < window.innerHeight) {
+                    el.classList.add("is-visible");
+                } else {
+                    revealObserver.observe(el);
+                }
+            });
+            firstRenderDone = true;
+        }
+
+        // ---- Mouse-follow spotlight on cards ----
+        function bindSpotlights() {
+            document.querySelectorAll(".spot:not([data-spot])").forEach(card => {
+                card.dataset.spot = "1";
+                card.addEventListener("pointermove", e => {
+                    const r = card.getBoundingClientRect();
+                    card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+                    card.style.setProperty("--my", `${e.clientY - r.top}px`);
+                });
+            });
+        }
+
+        // ---- Journey filters ----
+        const filterWrap = document.getElementById("journey-filters");
+        function updateFilterPill() {
+            const active = filterWrap.querySelector('[aria-pressed="true"]');
+            const pill = filterWrap.querySelector(".filter-pill");
+            pill.style.width = `${active.offsetWidth}px`;
+            pill.style.transform = `translateX(${active.offsetLeft}px)`;
+        }
+        filterWrap.querySelectorAll("button").forEach(btn => btn.addEventListener("click", () => {
+            journeyFilter = btn.dataset.filter;
+            filterWrap.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+            updateFilterPill();
+            document.querySelectorAll("#journey-list .t-item").forEach(item => {
+                const show = journeyFilter === "all" || item.dataset.type === journeyFilter;
+                item.hidden = !show;
+                if (show && !reduceMotion) {
+                    item.classList.remove("is-visible");
+                    void item.offsetWidth;
+                    requestAnimationFrame(() => item.classList.add("is-visible"));
+                }
+            });
+            onScroll();
+        }));
+
+        // ---- Scroll-linked: progress bar, timeline fill, back-to-top, active nav ----
+        const progressEl = document.getElementById("scroll-progress");
+        const timelineEl = document.getElementById("timeline");
+        const railFill = timelineEl.querySelector(".timeline-rail span");
+        const toTop = document.getElementById("to-top");
+        let ticking = false;
+        function onScroll() {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(() => {
+                const doc = document.documentElement;
+                const max = doc.scrollHeight - window.innerHeight;
+                progressEl.style.setProperty("--progress", max > 0 ? (window.scrollY / max).toFixed(4) : 0);
+                const r = timelineEl.getBoundingClientRect();
+                const fill = Math.min(1, Math.max(0, (window.innerHeight * 0.65 - r.top) / r.height));
+                railFill.style.setProperty("--fill", fill.toFixed(4));
+                toTop.classList.toggle("show", window.scrollY > window.innerHeight * 1.2);
+                ticking = false;
+            });
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+        toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" }));
+
+        if ("IntersectionObserver" in window) {
+            const navLinks = document.querySelectorAll(".desktop-nav a, .mobile-nav a");
+            const sectionObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const id = entry.target.id;
+                    navLinks.forEach(a => a.classList.toggle("is-active", a.getAttribute("href") === `#${id}`));
+                });
+            }, { rootMargin: "-45% 0px -50% 0px" });
+            document.querySelectorAll("main section[id], footer[id]").forEach(s => sectionObserver.observe(s));
+        }
+
+        // ---- Portrait tilt ----
+        const tilt = document.getElementById("portrait-tilt");
+        const heroVisual = tilt.parentElement;
+        if (!reduceMotion && window.matchMedia("(hover: hover)").matches) {
+            heroVisual.addEventListener("pointermove", e => {
+                const r = heroVisual.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width - .5;
+                const y = (e.clientY - r.top) / r.height - .5;
+                tilt.style.transform = `rotateY(${x * 14}deg) rotateX(${-y * 14}deg)`;
+            });
+            heroVisual.addEventListener("pointerleave", () => { tilt.style.transform = ""; });
+        }
+
+        // ---- Hero canvas: a drifting program graph with data flowing along its edges ----
+        (function heroGraph() {
+            const canvas = document.getElementById("hero-canvas");
+            const ctx = canvas.getContext("2d");
+            const hero = document.getElementById("top");
+            let w = 0, h = 0, nodes = [], pulses = [], running = false, raf = 0;
+            const mouse = { x: -9999, y: -9999 };
+            const LINK = 150;
+
+            function resize() {
+                const dpr = Math.min(window.devicePixelRatio || 1, 2);
+                w = hero.clientWidth; h = hero.clientHeight;
+                canvas.width = w * dpr; canvas.height = h * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                const n = Math.min(70, Math.round((w * h) / 16000));
+                nodes = Array.from({ length: n }, () => ({
+                    x: Math.random() * w, y: Math.random() * h,
+                    vx: (Math.random() - .5) * .28, vy: (Math.random() - .5) * .28,
+                    r: Math.random() * 1.6 + 1.2, amber: Math.random() < .14
+                }));
+                pulses = [];
+                if (reduceMotion) draw();
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                for (let i = 0; i < nodes.length; i++) {
+                    const a = nodes[i];
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const b = nodes[j];
+                        const d = Math.hypot(a.x - b.x, a.y - b.y);
+                        if (d < LINK) {
+                            ctx.strokeStyle = `rgba(95, 135, 146, ${(1 - d / LINK) * .28})`;
+                            ctx.lineWidth = 1;
+                            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+                        }
+                    }
+                }
+                pulses.forEach(p => {
+                    const x = p.a.x + (p.b.x - p.a.x) * p.t, y = p.a.y + (p.b.y - p.a.y) * p.t;
+                    ctx.fillStyle = "rgba(168, 97, 36, .85)";
+                    ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fill();
+                });
+                nodes.forEach(n => {
+                    const near = Math.hypot(n.x - mouse.x, n.y - mouse.y) < 120;
+                    ctx.fillStyle = n.amber ? "rgba(168, 97, 36, .7)" : `rgba(52, 93, 105, ${near ? .75 : .4})`;
+                    ctx.beginPath(); ctx.arc(n.x, n.y, n.r + (near ? 1.2 : 0), 0, Math.PI * 2); ctx.fill();
+                });
+            }
+
+            function step() {
+                nodes.forEach(n => {
+                    const dx = mouse.x - n.x, dy = mouse.y - n.y, d = Math.hypot(dx, dy);
+                    if (d < 160 && d > 1) { n.vx += dx / d * .012; n.vy += dy / d * .012; }
+                    n.vx *= .992; n.vy *= .992;
+                    const sp = Math.hypot(n.vx, n.vy);
+                    if (sp < .08) { n.vx += (Math.random() - .5) * .04; n.vy += (Math.random() - .5) * .04; }
+                    n.x += n.vx; n.y += n.vy;
+                    if (n.x < -20) n.x = w + 20; if (n.x > w + 20) n.x = -20;
+                    if (n.y < -20) n.y = h + 20; if (n.y > h + 20) n.y = -20;
+                });
+                if (pulses.length < 6 && Math.random() < .05) {
+                    const a = nodes[Math.floor(Math.random() * nodes.length)];
+                    const b = nodes.find(m => m !== a && Math.hypot(a.x - m.x, a.y - m.y) < LINK);
+                    if (b) pulses.push({ a, b, t: 0 });
+                }
+                pulses = pulses.filter(p => (p.t += .012) < 1 && Math.hypot(p.a.x - p.b.x, p.a.y - p.b.y) < LINK);
+                draw();
+                raf = requestAnimationFrame(step);
+            }
+
+            const start = () => { if (!running && !reduceMotion) { running = true; raf = requestAnimationFrame(step); } };
+            const stop = () => { running = false; cancelAnimationFrame(raf); };
+
+            hero.addEventListener("pointermove", e => {
+                const r = hero.getBoundingClientRect();
+                mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+            });
+            hero.addEventListener("pointerleave", () => { mouse.x = mouse.y = -9999; });
+            let resizeTimer;
+            window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 150); });
+            resize();
+            if ("IntersectionObserver" in window) {
+                new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop())).observe(hero);
+            } else start();
+            document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+        })();
+
         // Init
+        renderMarquee();
         let initial = "en";
         try { if (localStorage.getItem("lang") === "zh") initial = "zh"; } catch (e) {}
         setLang(initial);
+        onScroll();
 
         document.getElementById("lang-toggle").addEventListener("click", () => {
             setLang(document.documentElement.getAttribute("lang") === "zh" ? "en" : "zh");
@@ -702,17 +1444,19 @@
         mobileNav.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMobileNav));
         window.addEventListener("resize", () => {
             if (window.innerWidth > 860) closeMobileNav();
+            updateFilterPill();
         });
 
         // ---- WeChat QR popup ----
         const wechatModal = document.getElementById("wechat-modal");
-        const openWechat  = () => { wechatModal.classList.remove("hidden"); document.body.style.overflow = "hidden"; };
+        const openWechat  = () => { wechatModal.classList.remove("hidden"); document.body.style.overflow = "hidden"; document.getElementById("wechat-close").focus(); };
         const closeWechat = () => { wechatModal.classList.add("hidden"); document.body.style.overflow = ""; };
         document.getElementById("wechat-btn").addEventListener("click", openWechat);
         document.getElementById("wechat-close").addEventListener("click", closeWechat);
         document.getElementById("wechat-overlay").addEventListener("click", closeWechat);
         document.addEventListener("keydown", e => { if (e.key === "Escape") closeWechat(); });
 
+        document.fonts && document.fonts.ready.then(updateFilterPill);
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
